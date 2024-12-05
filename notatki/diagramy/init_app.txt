@@ -1,0 +1,29 @@
+
+init: 
+    czy istnieje zapamietany token? :
+        nie -> przejscie od razu na strone logowania 
+        tak -> wyslanie zapytania do api - update : refresh ? token 
+            niepomyslne -> przejscie na strone logowania i usuniecie token
+            pomyslne -> zapisanie danych sesji (jako obiekty, nie trzeba zapisywac w local storage)
+                przejscie do widoku main app
+
+logowanie:
+    logujemy sie do wersji mobile (nie browser)
+
+
+gdy jestesmy zalogowani 
+    tryb: admin/strazak | nadzorca | super-admin
+    odpowiednie menu
+
+wylogowanie:
+    usuniecie zapamietanego tokenu (ponowne otwarcie aplikacji przekieruje do logowania)
+    wyslanie zapytania do api (bez czekania na odp - jesli bedzie blad, to sesja i tak wazna jest tylko 0.5h, 
+        a ponowne logowanie resetuje inne sesje uzytkownika per browser/mobile)
+    przejscie do widoku logowania
+
+ 
+
+-------------------------
+strazacy:
+dodawanie strazakow - z kontaktow?
+wtedy przychodzi na telefon strazakowi link do aplikacji w sklepie oraz na email

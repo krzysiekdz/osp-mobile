@@ -1,0 +1,48 @@
+listenable, change notifier, listenable builder (mozna stosowac zamiast stateful widget) - przyklad: counter jako listenable
+    animated widget : widget.listenable.addListener(_handleChange);
+
+stream, stream builder, async snapshot  
+    widget.stream.listen(_handleChange);
+
+inherited widget,  builder, depend inherited widget of exact type 
+    dependencies - co ma sie rebuildowac, jesli inherited widget ulegnie zmianie
+    PersistentHashMap - mapa pomagajaca w implementacji inherited widget
+
+element (build context) to taki stan dla frameworka - czym innym jest state dla widgetu - to jest stan, ale dla aplikacji 
+podczas dzialania aplikacji jest tworzonych bardzo duzo elementow - inherited widget/element to taki podstawowy budulec
+polega on na tym, ze mozemy blyskawicznie pobrac danego widgetu wyzej w hierarchi - trzeba to odpowiednio zaimpelemtnowac
+provider polega na tym, ze poprzez inherited widget tworzony jest pewien typ T i mozliwy jest do pobrania za pomoca Provider.of
+
+provider, multi provider, inherited provider
+    inherited provider scope element - tutaj jest pobierane value z providera; inherited bo to jest na podstawie inherited widget 
+    zatem inherited provider czerpie koncept z inherited widget, dlatego w nazwie jest inherited 
+    provider.of pobiera inherited widget - providera, z ktorego jest pobierany wymagany obiekt;
+
+    provider.of - powoduje, ze w drzewie elementow jest umieszczony element, pod ktorym mozna znalesc wymagany obiekt 
+    (tworzony w create)   
+    normalnie nalezaloby recznie utworzyc inherited widget, aby pobrac ten obiekt, a tutaj jest on tworzony automatycznie
+    
+
+cubit, bloc base, streamable, state streamable, emmitable, bloc provider , bloc builder, bloc listener 
+//bloc listener code:
+void _subscribe() {
+    _subscription = _bloc.stream.listen((state) {
+      if (widget.listenWhen?.call(_previousState, state) ?? true) {
+        widget.listener(context, state);
+      }
+      _previousState = state;
+    });
+  }
+
+nested
+    nested element robi wlasny build
+
+element, component element, render object element, stateless element, stateful element
+https://api.flutter.dev/flutter/widgets/RenderObjectElement-class.html - poczytac...
+
+
+!! cykle zycia elementu - napisac samemu taki element i przesledzic cykl zycia , w tym updte inheritance
+
+czy global key w list jest uzyty prawidlowo? bo teoretycznie global key jest na cały cykl zycia aplikacji? a tam jesli tworzy 
+sie nowa lista to jest tworzony nowy global key
+

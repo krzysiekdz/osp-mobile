@@ -1,0 +1,31 @@
+https://www.youtube.com/watch?v=wE7khGHVkYY
+https://www.youtube.com/watch?v=rIaaH87z1-g
+https://www.youtube.com/watch?v=zmbmrw07qBc
+decoding flutter:
+https://www.youtube.com/playlist?list=PLjxrf2q8roU1fRV40Ec8200rX6OuQkmnl
+
+https://flutter.github.io/samples/#
+
+https://pub.dev/packages/shelf
+
+https://canopas.com/how-to-transform-dart-streams-a-basic-guide-to-stream-operators-c33f17c1aaf9
+
+
+https://medium.com/@paghadalsneh/a-visual-guide-to-input-decorations-for-flutter-textfield-6f805d1991b7
+
+https://docs.flutter.dev/tools/devtools/performance
+
+
+slivers
+https://medium.com/@rijalprabesh145/slivers-in-flutter-595226921b3d
+
+https://dash-overflow.net/
+
+
+fluter vs cmp
+https://medium.com/newsoft-official/compose-multiplatform-vs-flutter-771673612c61
+
+animated list
+https://morthor.medium.com/flutter-animatedlist-sizetransition-dismissible-dce49c11200d
+
+https://mrale.ph/dartvm/

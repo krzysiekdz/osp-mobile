@@ -1,0 +1,11 @@
+#state management
+declarative UI programming
+ephemeral and app state
+Dart's functions are first class objects, 
+everything is a widget - for ex. ChangeNotifier (notifyListeners)
+flutter pub add provider
+model vs service 
+We know that the Model layer components are invoked inside the Controller layer. Once the latter is built, you come to realize that it doesn't look concise (messy with dirty code); the Controller may not afford extra details (e.g. formatting request parameters before calling a DAO method that are going to consume them ...). Therefore, you might include this extra layer, namely the Service layer
+ChangeNotifierProvider, Consumer, Provider.of
+
+https://mrale.ph/dartvm/

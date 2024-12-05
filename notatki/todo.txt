@@ -1,0 +1,213 @@
+-----------------
+strazak lista:
+duza czcionka i rozmiar - poprawic aby w liscie nie bylo overflow
+actions: settings - tylko co tutaj dac? - dodaj z kontaktow? eksportuj? przy sprzecie - np generuj ksiege inwent
+    mozna tutaj dac wiecej filtrow - wtedy rozwinie sie 
+    sorotwanie - też tutaj?
+lista: kobiety, mężczyźni
+
+strazak podglad:
+zdjecie oraz przyciski - powinny byc w app bar - mozna schowac i wtedy na cały widok sa dane 
+nad stopien - umiescic "wysługa lat" - pokazuje sie jesli ktos ma wysluge
+data wstapienia - w nawiasie obok lub z dołu: liczba lat i miesiecy 
+w niektórych polach: nr legitymacji, pesel - mozliwosc skopiowania
+
+opcja: zadzwon, sms - jesli brak nrTel, to sa wyszarzone
+ustaw zdjecie 
+opcja wiecej: usun
+
+
+-----------------
+
+jak przekazac id i co w przypadku formularza add
+zaczac od: form cubit
+
+edytuj - strazak form: edycja imie,nazwisko - powrot do preview - tam odswizenie; powrot na liste 
+    - odswiezenie (wszystkie pages w liscie)
+potem bezposrednio z listy edytuj (przytrzymanie - rozwijaja sie opcje dla wiersza - jako modal z dolu)
+    
+fab - dodaj strazaka
+
+dodac ikone "czat" w menu dolnym - mozna by czatowac z cała grupa lub pojedynczymi osobami
+    czat - jako kolejna fajna rzecz
+
+operacje na wierszu - przytrzymanie - opcje
+    usun, 
+    edycja
+
+sprzet
+    skanowanie kodu - dodanie sprzetu po kodzie, wyszukiwanie, inwentaryzacja 
+    najpierw zrobic skanowanie istniejacych kodow - i zobaczyc co dalej, bo moze to wystarczy, bez drukowania
+
+tryb admin|strazak 
+
+pulpit 
+
+badania 
+
+szkolenia 
+
+akcje
+
+tryb online | offline 
+    offline to okrojony tryb, do szybkiego podgladu zapamietanych danych; nie mozna tutaj edytowac;
+    po wejsciu w aplikacje, mozna uzyskac podglady wybranych danych, a takze zalogowac sie (aplikacja zapamietuje login i haslo)
+
+---------------------
+
+sprobowac zmienic dynamicznie nawigacje bottom - czy  mimo wejscia w nowy element menu pokaze sie stary widok ktory byl na tym miejscu?
+
+-------------------
+
+tryb offline - np bez zalogowania dostepni sa strazacy - lista strazakow - i jakies podstawowe opcje 
+    zeby aplikacja w naglych przypadkach od razu była aktywna
+
+-------------------
+
+filtry - rozwijane: - caption: Pokaż wszystkie filtry - oraz badge - wybrano: X
+    sortowanie : A-Z, Z-A, dodany najpózniej, dodany najwcześniej, wstąpił najpózniej, wstąpił najwcześniej,  
+    filtr: stopien (juz w rozwijanych)
+    filtr - data - na pozniej
+
+lista - etykiety z data - do sorotwania? - raczej na pozniej (jak w pekao)
+
+rekord - overflow przy duzych czcionkach
+wielkosci czcionek - przyjrzec sie czy dobre style stosuje
+
+jak robie search - jesli jest pending a wpisze cos innego, to stare zapytanie powinno sie anulowac - zezwolic wiec na wykonanie
+nastepnego a poprzednie anulowac
+
+opcja - zadzwon do strazaka
+
+rozwazyc animated list? - to mzoe na pozniej
+
+-----------------------------
+
+po strazakch, zrobic sprzet - lista + podglad; nastepnie skaner kodów - to bedzie dobre do prezentacji i zatwierdzenia mobile 
+tryb strazak | admin - tez bedzie dobry do zatwierdzenia
+prosty formularz - dla treningu (strazak? sprzet?)
+dodawanie zdjecia do strazaka, sprzetu
+
+klikniecie w rekord - pokazuej sie okno modalne ze szczegółami, oraz mozna kliknac: wiecej/edytuj/usun/zaznacz
+    po kliknieciu pokaze sie wiecej danych bez pobierania z api; klikniecie wiecej wczyta cały rekord; napisz wiadomosc
+odswiez - po przciagnieciu
+rekord - info - online/offline (ikonka zielona/czerwona)
+
+fab - add , element pusty na liscie 
+top bar: wyszukaj, 
+    trzy kropki - modal z dolu - opcje
+pierwsza pozycja - informacje o filtrach i wyszukiwaniu - rozwijalna; sortowanie | filtry | data
+tabs - dla pewnych opcji - np typy strazakow : wszyscy, zwyczajny, wspierajacy, honorowy, mdp
+rekord - przytrzymanie - zaznaczenie od razu ?
+
+najpierw: tryb admin - listowanie podstawowych tabelek + dodawanie,edycja,usuwanie
+
+pulpit - top bar: wyloguj, title, kontakt (telefon, lub chat z pytaniami)
+    podsumowania, skróty, konfiguracje skrótow, ostatnie operacje 
+    3 moduły w srodku - do ustawienia 
+    ostatni moduł to wiecej - tutaj reszta
+wiecej - ostatni moduł - tutaj lista wszystkich modułów, jakie są (tez te z menu dolnego)
+    czyli podział moduły z listami rozwijalnymi - podmoduły
+    czyli "wiecej" to takie jakby menu rozwijalne ze wszystkimi opcjami
+    3 opcje menu dolnego po srodku sa do ustawienia 
+    pozostałe moduły z "więcej" otwierają się w nowym oknie i wtedy kolejne też wszystko nad nimi - czyli moze byc duzo okien jedno na drugim
+
+lista:
+fab? - jako przycisk add? - zawsze na liscie 1 element pusty, zeby fab nie zasłaniał ostatenigo elementu?
+przyciski: wyszukaj, więcej - tutaj np. eksportuj listę strażaków itp
+pierwsza pozycja na liscie - informacje o wyszukiwaniu/filtrach itp - mozna ja rozwinac
+    wtedy dodatkowe opcje (np lista ze statusami) pokazuje sie jako modal z dolu 
+wyswietlanie rekordu - etykietki itp
+rekord po dotknieciu rozwija sie ? nie potrzebne rozwijanie, bo pokaze sie po prostu w nowym oknie - i tam mozliwosc edycji
+    ale mozna tez przytrzymac i wtedy opcje rekordku: usun, edytuj, zaznacz - jak zaznaczymy - tryb zaznaczania
+rekord - przytrzymanie - wyskakuje modal z dolu - w nim na gorze jest tytuł rekordu jakiego sie tyczy; opcje poniżej, oraz X do zakmniecia
+tak samo przycisk 3 kropeczki na koncu rekordu, aby wybrac wiecej opcji 
+
+tabs na liscie - np statusy: skierowania, wykonane (szkolenia), albo strazacy: mdp, wspierajacy, strazak, honorowy - jako tabs?
+
+rekordy - bez tła? 
+wyszukiwarka - zapamietywanie wpisywanych haseł?
+paginacja (scroll), 
+refresh - przeciagniecie do dolu
+dodaj - fab 
+title, 
+wyszukiwanie, 
+filtrowanie, 
+
+sortowanie,
+?ustawienia dodatkowe dla tabelki, 
+rekord: zaznaczanie wielu (operacje na kilku), 
+
+-------------------------
+formularze:
+dodawanie/edycja
+---------------------------
+plan działania:
+zaznaczenie, ze chce sie tym moc pochwalic
+najpierw podglady: (formularze tylko tam, gdzie to faktycznie potrzebne - czyli to wyjdzie pozniej)
+sprzet - wyswietlenie listy + skaner kodów (juz zrobic, mimo ze jeszcze nie ma generownaia) - wtedy jakis testowy kod kreskowy 
+    moge nadac dla produktu i zobaczyc czy wyszuka; od razu moge robic tryb inwentaryzacji
+pierwszy formularz - dodawanie strazaka - dodanie z kontaktow?
+podglady na pewno beda uzyteczna dla trybu strazak 
+formularze byc moze beda uproszczone, i z czasem, tam gdzie trzeba sie je dorobi (np sprzet raczej bedzie zarzadzany z web)
+strazacy, badania, szkolenia, wyjazdy, skladki, wyposazenie
+listy, wyszukiwanie, podglady, z podgladu wejscie w listę rzeczy (np ze strazaka -> badania)
+tryby: admin | strazak 
+jesli strazak - wyswietlnie swoich danych: dane strazackie, badania, szkolenia, wyjazdy, skladki, sprzet
+
+skupic sie na sprzet - dodawanie/edycja
+dodawanie zdjec do sprzetu
+skaner kodow kreskowych 
+
+mobile:
+tryb strazak 
+widoki responsywne - aplikacja mobile zamiast web 
+specjalne funkcje - robienie i dodawanie zdjec, skanowanie kodow, inwentaryzacja
+formularze okrojone (np najpierw nie robic przypisywania sprzetu itp, to ewentualnie na pozniej)
+mobile moze skupiac sie na pewnych funkcjach ktore beda fajne mobile - np czat 
+    trudniej jest komus zalozyc whatsapp (wszyscy wtwedy musza miec jeden komunikator) - a tak wszyscy poprostu korzystacja z aplikacji
+
+przetestowac jak ogólnie system  bedzie wykorzystywany - czy np robimy jednak tylko mobile czy obie 
+np mobile bardziej pod wykorzystanie natywne i proste formularze a web bardziej pod prace biurową (wystawianie i drukowanie dokumentow)
+
+---------------------------
+pisanie wiadomosci - prosty czat - powiadomienie, ze wiadomosc przyszła
+historia rozmow , mozliwosc dzwonienia - strazacy widoczni jako grupa
+wtedy kazdy strazak widzi innych - kazdy strazak ma zakladke strazacy z info kto online/offline i mozliwosc czatu
+wtedy w jakims stopniu aplikacja powinna dzialac offline - np powinna zapisac strazakow zeby moc offline do nich dzwonic
+---------------------------
+lista - keszowanie danych?
+pod nazwa na liscie wyswietlic info: "dane z godziny" - oraz przycisk odswież
+---------------------------
+aplikacja web vs mobile
+    web bardziej rozbudowana, mobile - okrojone do tego co wykorzystuje sie na telefonie (np. brak konfiguracji wydruku, bo nie drukuje sie z telefonu)
+    web: np konfiguracja wszelkich wydruków i wydruki, dokumenty; wideokonferencja itp
+    mobile - specjalne natywne funkcje (np. skanowanie kodów kreskowych)
+    mobile - strazak - tylko tutaj (wiec nie trzeba tego w web)
+    mobile - odchodzą widoki responsywne w web (a to sporo prac)
+
+---------------------------
+aplikacja mobilna - 
+tryb:strazak | admin
+swoje dane (strazackie, osobowe,kontakwoe, zarzad), 
+badania, 
+szkolenia, 
+wyposazenie, 
+skladki, 
+wyjazdy - (podsumowanie - ile sie nalezy)
+--------------------------------
+zapomniales hasla?  nie masz jeszcze konta?
+scroll zrobic na tle, tak zeby tlo sie nie przewijalo? w - przypadku np rejestracja, gdy duzo pól
+makieta dla rejestracji, gdy wiecej pol, zeby byl scroll
+-----------------------
+cykl zycia aplikacji - przetestowac (start, pause itp)
+przetestowac w przypadku, gdy aktywnosc jest niszczona - jak zachowa sie aplikacja
+rownolegla aplikacja ng dart ? dla porownania? - bardziej na pozniej, jezeli wogole (jako ciekawostka)
+
+w drawer - dodac header: "OSP Pożarnik", padding
+popracowac nad widokiem listy - scroll, loader, errors
+
+menu: 
+    jesli widok mobile: navigation menu , ostatni przycisk: "... więcej" - wywoła menu (drawer) z resza opcji 
+    nie bedzie przycisku drawer na gorze zatem ?
+    jesli widok szerszy - navigation rail - wtedy tez przycisk ktory wlacza drawer (drawer wyjezdza z prawej w obu przypadkach)

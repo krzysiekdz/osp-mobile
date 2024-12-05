@@ -1,0 +1,32 @@
+// czy statefull widget moze byc jako list item?
+// state jest po to, aby wprowadzic zmiany w elemencie listy, bez przebudowywania calej listy
+// np element zaznaczony / odznaczony ? - potrzebny stan - ale stan musi byc "na zewnatrz" - inaczej przepadnie
+// stateful widget bylby przydatny gdybym chcial np animowac element - wtedy animacja nie powinna trigerowac build dla parent
+
+2 typy statefulwidget - taki co robi tylko initstate, ale nie robi setState i taki co robi setState (często, aby aktualizowac widok)
+
+external method/member
+https://stackoverflow.com/questions/24929659/what-does-external-mean-in-dart
+What this does mean is that you define the function, but without implementation. It's exactly how you define the abstract method, but the only difference is that with external you don't implement the method in dart but in C or something else.
+Something like String class it can be considered as external functions except that the String class it marked with @pragma('vm:entry-point') which make the entire class use native code.
+
+dart vm 
+https://mrale.ph/dartvm/
+
+//zawsze robic 2 rodzaje formularzy - zewnetrzny i wewnetrzny 
+//1. wewnetrzny: do wewnetrznego jest przekazywany obiekt - mapa; zwraca takze obiekt-mape (po modyfikacji) - tylko tyle 
+// jako UI - nie jest scaffoldem - mozliwe jest umieszczenie kilku takich formularzy w jednym widoku; mozna go takze osadzic 
+// w roznych rodzajach widgetow, np w pop-upie
+//2. zewnetrzny - pobiera obiekt o podanym ID z repozytorium; jest scaffoldem; taki jakby kontroler;
+// sklada sie z formularza wewnetrznego, a nawet kilku wewnetrznych
+// zewnetrzny formularz posiada repozytorium, na ktorym wywouje operacje - przed edycja, robi diff na obiekcie 
+// i robi edit tylko gdy diff > 0; robi edit na polach diff
+//jest to ogolne podejscie do formularzy; czy przenosi sie ono na edycje listy?
+// formularz zewnetrzny nie musi byc scaffoldem - to zalezy od jego implementacji, ale sklada sie on z formularzy wewnetrznych
+//ktore zwracja zmodyfikowane czesci obiektu a nastepnie na całym obiekcie wykonuje sie operację do api
+
+po edycji, gdy powrocimy do listy - listę nalezy odswiezyc? - bo moze sie zmienic sortowanie albo wartosc filtrowania
+nalezy odswiezyc, ale pobrac dane z uwzglednieniem strony - bo mozemy byc np na drugiej stronie, a zwykly refresh wczyta
+tylko pierwsza strone - trzeba tez zapamietac scroll
+
+wychodzac z preview nalezy poinformowac liste, czy była edycja
