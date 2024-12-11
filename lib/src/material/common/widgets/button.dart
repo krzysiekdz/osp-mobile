@@ -4,16 +4,18 @@ class AppFilledButton extends StatelessWidget {
   final Function? onPressed;
   final String textLabel;
   final bool isPending;
+  final bool isDisabled;
   const AppFilledButton(
       {super.key,
       required this.textLabel,
       this.onPressed,
+      this.isDisabled = false,
       this.isPending = false});
 
   @override
   Widget build(BuildContext context) {
     return FilledButton(
-        onPressed: onPressed != null
+        onPressed: (onPressed != null) && !isDisabled
             ? () {
                 onPressed!.call();
               }

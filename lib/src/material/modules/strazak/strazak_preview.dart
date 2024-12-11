@@ -165,7 +165,8 @@ class _StrazacyPreviewTab1State extends State<StrazacyPreviewTab1>
                 left: 'Rodzaj',
                 right: TDict.find(Strazak.rodzaje(), item.rodzaj, "-").text),
             TCaptionValue(
-              left: item.inActions
+              left: const SizedBox(),
+              right: item.inActions
                   ? Text('Bierze udział w akcjach',
                       style: labelMedium(context)?.copyWith(
                           fontWeight: FontWeight.bold,
@@ -176,7 +177,8 @@ class _StrazacyPreviewTab1State extends State<StrazacyPreviewTab1>
                           color: errorColor(context))),
             ),
             TCaptionValue(
-                left: item.czyJot
+                left: const SizedBox(),
+                right: item.czyJot
                     ? Text('Należy do JOT',
                         style: labelMedium(context)?.copyWith(
                             fontWeight: FontWeight.bold,
@@ -187,7 +189,8 @@ class _StrazacyPreviewTab1State extends State<StrazacyPreviewTab1>
                             color: errorColor(context)))),
             if (item.czyOpiekunMdp)
               TCaptionValue(
-                  left: Text('Jest opiekunem MDP',
+                  left: const SizedBox(),
+                  right: Text('Jest opiekunem MDP',
                       style: labelMedium(context)?.copyWith(
                           fontWeight: FontWeight.bold,
                           color: successColor(context)))),
@@ -245,9 +248,8 @@ class _StrazacyPreviewTab2State extends State<StrazacyPreviewTab2>
         children: [
           CardCaptionValue(children: [
             TCaptionValue(
-                left: Text("${item.nazwisko}  ${item.imie} ${item.drugieImie}",
-                    style: labelMedium(context)
-                        ?.copyWith(fontWeight: FontWeight.bold))),
+                left: 'Nazwisko i imię',
+                right: "${item.nazwisko} ${item.imie} ${item.drugieImie}"),
             TCaptionValue(left: "PESEL", right: item.pesel),
             TCaptionValue(left: "Data urodzenia", right: item.dataUr),
             TCaptionValue(left: "Miejsce urodzenia", right: item.miejsceUr),
@@ -311,28 +313,29 @@ class _StrazacyPreviewTab3State extends State<StrazacyPreviewTab3>
         children: [
           CardCaptionValue(children: [
             TCaptionValue(
-                left: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  "Adres",
-                  style: labelMedium(context),
-                ),
-                const SizedBox(
-                  height: 6,
-                ),
-                Text(
-                  "${item.kodPocztowy} ${item.poczta}",
-                  style: labelMedium(context)
-                      ?.copyWith(fontWeight: FontWeight.bold),
-                ),
-                Text(
-                  "${item.miejscowosc != item.poczta ? item.miejscowosc : ''} ${item.ulica} ${item.nrBudynku}",
-                  style: labelMedium(context)
-                      ?.copyWith(fontWeight: FontWeight.bold),
-                )
-              ],
-            )),
+                left: 'Adres',
+                right: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    // Text(
+                    //   "Adres",
+                    //   style: labelMedium(context),
+                    // ),
+                    // const SizedBox(
+                    //   height: 6,
+                    // ),
+                    Text(
+                      "${item.kodPocztowy} ${item.poczta}",
+                      style: labelMedium(context)
+                          ?.copyWith(fontWeight: FontWeight.bold),
+                    ),
+                    Text(
+                      "${item.miejscowosc != item.poczta ? item.miejscowosc : ''} ${item.ulica} ${item.nrBudynku}",
+                      style: labelMedium(context)
+                          ?.copyWith(fontWeight: FontWeight.bold),
+                    )
+                  ],
+                )),
             TCaptionValue(left: "E-mail", right: item.email),
             TCaptionValue(left: "Nr telefonu", right: item.nrTel),
           ]),
@@ -372,7 +375,7 @@ class _StrazacyPreviewTab4State extends State<StrazacyPreviewTab4>
           CardCaptionValue(children: [
             TCaptionValue(left: "Wzrost", right: sizeOrEmpty(item.wzrost)),
             TCaptionValue(
-                left: "Nr buta", right: item.nrButa > 0 ? item.nrButa : ''),
+                left: "Nr buta", right: item.nrButa > 0 ? item.nrButa : '-'),
             TCaptionValue(left: "Rozmiar dłoni", right: item.rozmiarRloni),
             TCaptionValue(
                 left: "Obwód w klatce piersiowej",

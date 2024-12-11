@@ -64,7 +64,7 @@ ThemeData prepareTheme({
       ),
 
       inputDecorationTheme: InputDecorationTheme(
-        contentPadding: const EdgeInsets.all(18),
+        contentPadding: const EdgeInsets.all(gap),
         enabledBorder: OutlineInputBorder(
           borderSide: BorderSide(
             color: borderColor,

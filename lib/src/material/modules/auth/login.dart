@@ -80,7 +80,7 @@ class _LoginState extends State<LoginView> {
                       children: [
                         Text('Logowanie', style: displaySmall(context)),
                         const SizedBox(height: 32),
-                        AppTextFormField(
+                        SimpleTextFormField(
                           labelText: 'Email',
                           prefixIcon: Icons.email,
                           controller: cEmail,

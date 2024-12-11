@@ -36,7 +36,8 @@ class CardCaptionValue extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.symmetric(
                         horizontal: 0, vertical: gap),
-                    child: scale <= 10
+                    // child: scale <= 10
+                    child: scale <= 1
                         ? Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: buildCaptionValue(d, context),

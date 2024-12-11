@@ -14,7 +14,7 @@ class _AppPasswordFormField extends State<AppPasswordFormField> {
 
   @override
   Widget build(BuildContext context) {
-    return AppTextFormField(
+    return SimpleTextFormField(
         labelText: 'Hasło',
         obscureText: obscureText,
         prefixIcon: Icons.lock,

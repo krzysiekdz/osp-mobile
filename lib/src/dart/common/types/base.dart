@@ -4,8 +4,8 @@ class TBase {
   final Map<String, dynamic>? _d;
   const TBase(this._d);
 
-  int get id => _d?['id'] ?? 0;
-  set id(int id) => _d?['id'] = id;
+  dynamic get id => _d?['id'] ?? 0;
+  set id(dynamic id) => _d?['id'] = id;
 
   Map<String, dynamic>? get d => _d;
 
@@ -15,6 +15,8 @@ class TBase {
   Map<String, dynamic>? copyWith(Map<String, dynamic> other) =>
       d?.map<String, dynamic>((i, v) =>
           other.containsKey(i) ? MapEntry(i, other[i]) : MapEntry(i, v));
+
+  bool isEmpty() => d?.isEmpty ?? true;
 }
 
 class TDict {

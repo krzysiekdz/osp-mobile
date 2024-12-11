@@ -72,13 +72,14 @@ class StrazakFormPending extends StatelessWidget {
                 ? const Text('Pobieranie...')
                 : state.isError
                     ? const Text('Edycja: Wystąpił bład')
-                    : Text('${state.item!.nazwisko} ${state.item!.imie}')),
+                    : Text(
+                        '${state.current!.nazwisko} ${state.current!.imie}')),
         body: Center(
           child: state.isPending
               ? const CircularProgressIndicator()
               : state.isError
                   ? Text(state.err?.msg ?? 'Wystąpił bład')
-                  : Text('${state.item!.nazwisko} ${state.item!.imie}'),
+                  : Text('${state.current!.nazwisko} ${state.current!.imie}'),
         ));
   }
 }
@@ -96,19 +97,22 @@ class StrazakFormError extends StatelessWidget {
                 ? const Text('Pobieranie...')
                 : state.isError
                     ? const Text('Edycja: Wystąpił bład')
-                    : Text('${state.item!.nazwisko} ${state.item!.imie}')),
+                    : Text(
+                        '${state.current!.nazwisko} ${state.current!.imie}')),
         body: Center(
           child: state.isPending
               ? const CircularProgressIndicator()
               : state.isError
                   ? Text(state.err?.msg ?? 'Wystąpił bład')
-                  : Text('${state.item!.nazwisko} ${state.item!.imie}'),
+                  : Text('${state.current!.nazwisko} ${state.current!.imie}'),
         ));
   }
 }
 
-// pierwsza rzecz, to zrobic prosty formularz dla danego konkretnego typu, aby potem sie nie pogubic na typach generycznych
-//zrobic prosty formularz z podziałem na zakladki, mozliwoscia zapisz potem prosty formularz dodawania
+//po zapisie wyjscie z formularza lub wyswietlenie bledu
+//wyjscie z formularza - jesli zmiany - czy na pewno?
+//potem z podziałem na zakladki, mozliwoscia zapisz
+//potem prosty formularz dodawania
 //potem zrobic analogicznie dla sprzet - czyli wszystko w generyczne klasy
 class StrazakFormContent extends StatefulWidget {
   const StrazakFormContent({super.key, required this.state});
@@ -120,20 +124,81 @@ class StrazakFormContent extends StatefulWidget {
 }
 
 class _StrazakFormContentState extends State<StrazakFormContent> {
-  Strazak get item => widget.state.item!;
+  Strazak get b => widget.state.buffer!;
+  Strazak get c => widget.state.current!;
+  Strazak get i => widget.state.initial!;
+
+  AppFormState<Strazak> get state => widget.state;
+
+  StrazakFormCubit get cubit => context.read<StrazakFormCubit>();
+
+  final formKey = GlobalKey<FormState>();
+
+  AppTextFormField<Strazak, StrazakFormCubit> textForm(
+          {String initialValue = '',
+          required FormChangeCallback<Strazak> onFormChange,
+          String label = ''}) =>
+      AppTextFormField<Strazak, StrazakFormCubit>(
+        initialValue: initialValue,
+        label: label,
+        onFormChange: onFormChange,
+      );
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: Text("${item.nazwisko} ${item.imie}"),
-        ),
-        body: SingleChildScrollView(
-          child: Column(
-            children: [
-              Text("${item.nazwisko} ${item.imie}"),
-            ],
+      appBar: AppBar(
+        title: Text("${c.nazwisko} ${c.imie}"),
+      ),
+      body: Column(
+        children: [
+          Flexible(
+            fit: FlexFit.tight,
+            child: Form(
+              key: formKey,
+              child: SingleChildScrollView(
+                padding: const EdgeInsets.all(gap),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    space(),
+                    textForm(
+                      initialValue: c.imie,
+                      label: 'Imię',
+                      onFormChange: (f, v) => f..imie = v,
+                    ),
+                    space(2),
+                    textForm(
+                      initialValue: c.nazwisko,
+                      label: 'Nazwisko',
+                      onFormChange: (f, v) => f..nazwisko = v,
+                    ),
+                    space(),
+                  ],
+                ),
+              ),
+            ),
           ),
-        ));
+          Flexible(
+            flex: 0,
+            child: Container(
+              decoration: BoxDecoration(color: Theme.of(context).cardColor),
+              padding: const EdgeInsets.all(gap),
+              child: AppFilledButton(
+                textLabel: 'Zapisz',
+                isDisabled: !state.isDirty || state.isSaving,
+                isPending: state.isSaving,
+                onPressed: () async {
+                  final res = await cubit.save();
+                  if (res && context.mounted) {
+                    Navigator.of(context).pop();
+                  }
+                },
+              ),
+            ),
+          )
+        ],
+      ),
+    );
   }
 }

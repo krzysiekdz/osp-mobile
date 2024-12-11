@@ -7,7 +7,10 @@ abstract class Api1Repository<T extends TBase> extends Repository<T> {
 
   Api1Repository(this.apiService);
 
-  T createElement(Map<String, dynamic> data);
+  @override
+  T copy(T data) {
+    return createElement(data.copy() ?? {});
+  }
 
   @override
   Future<T> get({id, Map<String, dynamic> params = const {}}) async {
@@ -35,6 +38,37 @@ abstract class Api1Repository<T extends TBase> extends Repository<T> {
         data.add(createElement(e));
       }
       return data;
+    }
+    throw RepositoryException(res.message, code: res.statusCode);
+  }
+
+  @override
+  Future<T> update(T data, {Map<String, dynamic> params = const {}}) async {
+    final p = Map<String, dynamic>.from(data.d ?? {});
+    p.addAll(params);
+    final id = p['id'] ?? 0;
+    if (id == 0) {
+      throw const RepositoryException("Nie przekazano ID", code: 400);
+    }
+    p.remove('id');
+
+    Api1Response res = await apiService.put(
+        endpoint: '$endpoint/$id', params: p) as Api1Response;
+    if (res.isOk) {
+      return createElement(res.data);
+    }
+    throw RepositoryException(res.message, code: res.statusCode);
+  }
+
+  @override
+  Future<T> create(T data, {Map<String, dynamic> params = const {}}) async {
+    final p = Map<String, dynamic>.from(data.d ?? {});
+    p.addAll(params);
+
+    Api1Response res =
+        await apiService.post(endpoint: endpoint, params: p) as Api1Response;
+    if (res.isOk) {
+      return createElement(res.data);
     }
     throw RepositoryException(res.message, code: res.statusCode);
   }

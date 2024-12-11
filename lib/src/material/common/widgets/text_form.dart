@@ -2,14 +2,14 @@ part of '../index.dart';
 
 typedef AppTextFormValidator = String? Function(String? value);
 
-class AppTextFormField extends StatelessWidget {
+class SimpleTextFormField extends StatelessWidget {
   final String labelText;
   final IconData? prefixIcon;
   final TextEditingController? controller;
   final AppTextFormValidator? validator;
   final bool obscureText;
   final Widget? suffixIcon;
-  const AppTextFormField(
+  const SimpleTextFormField(
       {super.key,
       required this.labelText,
       this.prefixIcon,

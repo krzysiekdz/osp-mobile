@@ -19,8 +19,39 @@ opcja wiecej: usun
 
 -----------------
 
-jak przekazac id i co w przypadku formularza add
-zaczac od: form cubit
+edycja imie i nazwisko - mechanizm formularza, aby zapisywac, raczej tylko przycisk "Zapisz"
+    edycja - mozliwosc przekazania obiektu, zamiast pobierania go z api - zapisz robi zapisz w api 
+    jako opcje: zapisz, zapisz i pokaz (brak zapisz i zamknij, bo zapisz zawsze zamyka)
+    dodaj: zapisz, zapisz i dodaj nastepny, zapisz i pokaz 
+    albo zapisz zawsze zamyka okno i przenosi na podglad?
+    wyjscie z formularza - zapytanie czy na pewno 
+odswiezenie preview - przekazanie obiektu
+odswiezenie listy - czy stracimy pozycje scrolla? utrzymac ta pozycje - full refresh (po wszystkich pages)
+formularz - tabs 
+form add - fab 
+    odswiezenie listy po add lub przejscie na preview
+edycja bezposrednio z listy - opcje po kliknieciu w rekord (edytuj, usun)
+    usuwanie strazaka (jesli nic nie ma przypisane)
+
+sprzet - lista, preview, edycja 
+
+sprzet - kody kreskowe - skanowanie 
+    dodawanie z kodu kreskowego
+
+form add - dodawanie rekordow - wybieranie np strazaka lub sprzetu z danej listy (strazakow, sprzetu) - zapisanie w pamieci 
+    i zapisanie hurtowo calosci
+    pozycje jako relacje do rekordu beda zawsze w osobnej tab - wtedy zawartosc moze byc lista normalna
+    wtedy tez potrzebna bedzie hurtowa modyfikacja, np godziny wyjazdu (zaznaczenie rekordow i modyfikacja, opcja zaznacz wszystkie)
+    czy form add robic osobne listy do dodawania a osobne do edycji? ale wtedy dwa razy taka praca? 
+    ale tez mozna zrobic takie listy jako generyczne, a dodawanie bedzie bardziej intuicyjne
+    czyli zrobic generyczna liste dla dodawania i jako repo bedzie to obiekt (pamiec) - ciekawy przypadek - wteyd nie trzba zapisywac rekordu, aby dodac pozycje
+    listy add moga byc analogiczne, tylko reposityory bedzie inne
+
+    opcje: zapisz, zapisz i pokaż
+
+    czyli zapisz bedzie na listach w pamieci, a edycja na listach w api
+
+---------------------
 
 edytuj - strazak form: edycja imie,nazwisko - powrot do preview - tam odswizenie; powrot na liste 
     - odswiezenie (wszystkie pages w liscie)

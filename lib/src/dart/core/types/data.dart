@@ -17,7 +17,7 @@ abstract class Repository<T> {
     throw UnimplementedError();
   }
 
-  //data - obiekt zawiera mapę - tylko pola, ktore rzeczywiscie są edytowane, nie musza to byc wszystkie pola obiektu
+  //data - obiekt zawiera mapę (jeśli TBase) - tylko pola, ktore rzeczywiscie są edytowane, nie musza to byc wszystkie pola obiektu
   Future<T> update(T data, {Map<String, dynamic> params = const {}}) {
     throw UnimplementedError();
   }
@@ -25,6 +25,10 @@ abstract class Repository<T> {
   Future<T> delete({dynamic id, Map<String, dynamic> params = const {}}) {
     throw UnimplementedError();
   }
+
+  T createElement(Map<String, dynamic> data) => throw UnimplementedError();
+
+  T copy(T data) => throw UnimplementedError();
 }
 
 class RepositoryException implements Exception {
