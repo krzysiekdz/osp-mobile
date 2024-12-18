@@ -13,7 +13,11 @@ abstract class BaseFormCubit<T extends TBase> extends Cubit<AppFormState<T>> {
       AppFormState<T>? initialState,
       this.id,
       this.params})
-      : super(initialState ?? AppFormState<T>());
+      : super(initialState ??
+            AppFormState<T>(
+                phase: (fetchOnInit && id != null)
+                    ? AppFormPhase.fetch
+                    : AppFormPhase.data));
 
   void init() {
     repo = createRepo();
@@ -37,7 +41,7 @@ abstract class BaseFormCubit<T extends TBase> extends Cubit<AppFormState<T>> {
 
   void fetch() async {
     _cancelPendingTasks();
-    emit(state.copyWith(isPending: true, clearError: true));
+    emit(state.copyWith(phase: AppFormPhase.fetch, clearError: true));
     late Future<T> pendingTask;
     try {
       pendingTask = repo.get(id: id, params: params ?? {});
@@ -48,11 +52,11 @@ abstract class BaseFormCubit<T extends TBase> extends Cubit<AppFormState<T>> {
           initial: item,
           current: repo.copy(item),
           buffer: createBuffer(),
-          isPending: false));
+          phase: AppFormPhase.data));
     } on RepositoryException catch (e) {
       if (isClosed) return;
       emit(state.copyWith(
-        isPending: false,
+        phase: AppFormPhase.fetchError,
         err: e,
       ));
     } finally {
@@ -75,7 +79,7 @@ abstract class BaseFormCubit<T extends TBase> extends Cubit<AppFormState<T>> {
   Future<bool> save() async {
     if (state.buffer == null || state.initial == null) return false;
     _cancelPendingTasks();
-    emit(state.copyWith(isSaving: true, clearError: true));
+    emit(state.copyWith(phase: AppFormPhase.dataSave, clearError: true));
     late Future<T> pendingTask;
     try {
       final id = state.initial!.id;
@@ -87,17 +91,20 @@ abstract class BaseFormCubit<T extends TBase> extends Cubit<AppFormState<T>> {
       _pendingTasks.add(pendingTask);
       await pendingTask;
       if (isClosed) return true;
-      emit(state.copyWith(isSaving: false));
+      emit(state.copyWith(phase: AppFormPhase.dataSaveSuccess));
       return true;
     } on RepositoryException catch (e) {
-      if (isClosed) return false;
-      emit(state.copyWith(
-        isSaving: false,
-        err: e,
-      ));
+      if (!isClosed) {
+        emit(state.copyWith(
+          phase: AppFormPhase.dataSaveError,
+          err: e,
+        ));
+      }
       return false;
     } finally {
-      _pendingTasks.remove(pendingTask);
+      if (!isClosed) {
+        _pendingTasks.remove(pendingTask);
+      }
     }
   }
 
@@ -111,19 +118,26 @@ abstract class BaseFormCubit<T extends TBase> extends Cubit<AppFormState<T>> {
   }
 }
 
+enum AppFormPhase {
+  fetch,
+  fetchError,
+  data,
+  dataSave,
+  dataSaveError,
+  dataSaveSuccess,
+}
+
 class AppFormState<T extends TBase> {
   final T? initial; //initial object
   final T? current; //current object
   final T? buffer; //data ready to save (only changes)
-  final bool isPending;
-  final bool isSaving;
+  final AppFormPhase phase;
   final RepositoryException? err;
   const AppFormState({
     this.current,
     this.initial,
     this.buffer,
-    this.isPending = false,
-    this.isSaving = false,
+    this.phase = AppFormPhase.data,
     this.err,
   });
 
@@ -131,8 +145,7 @@ class AppFormState<T extends TBase> {
     T? initial,
     T? current,
     T? buffer,
-    bool? isPending,
-    bool? isSaving,
+    AppFormPhase? phase,
     RepositoryException? err,
     bool? clearError,
   }) =>
@@ -140,8 +153,7 @@ class AppFormState<T extends TBase> {
         initial: initial ?? this.initial,
         current: current ?? this.current,
         buffer: buffer ?? this.buffer,
-        isPending: isPending ?? this.isPending,
-        isSaving: isSaving ?? this.isSaving,
+        phase: phase ?? this.phase,
         err: clearError == true ? null : (err ?? this.err),
       );
 

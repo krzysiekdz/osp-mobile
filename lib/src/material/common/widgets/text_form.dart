@@ -1,7 +1,5 @@
 part of '../index.dart';
 
-typedef AppTextFormValidator = String? Function(String? value);
-
 class SimpleTextFormField extends StatelessWidget {
   final String labelText;
   final IconData? prefixIcon;

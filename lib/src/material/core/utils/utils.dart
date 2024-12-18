@@ -2,11 +2,21 @@ part of '../index.dart';
 
 enum SnackBarType { error, success, warning, info, normal }
 
+class SnackBarConfig {
+  final EdgeInsets? margin;
+  final SnackBarBehavior? behavior;
+  final Duration? duration;
+  const SnackBarConfig({this.margin, this.behavior, this.duration});
+}
+
 class MatUtils {
   static void showSnackBar(BuildContext context, String message,
-      [SnackBarType? type]) {
+      {SnackBarConfig? config, SnackBarType? type}) {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
+        margin: config?.margin,
+        behavior: config?.behavior,
+        duration: config?.duration ?? const Duration(seconds: 5),
         content: Row(
           children: [
             Icon(
@@ -17,7 +27,9 @@ class MatUtils {
             Expanded(
                 child: Text(
               message,
-              style: TextStyle(color: getTextColorByType(context, type)),
+              style: TextStyle(
+                  color: getTextColorByType(context, type),
+                  fontWeight: FontWeight.bold),
             )),
           ],
         ),
@@ -25,7 +37,9 @@ class MatUtils {
           label: 'OK',
           textColor: getTextColorByType(context, type),
           onPressed: () {
-            ScaffoldMessenger.of(context).hideCurrentSnackBar();
+            // if (context.mounted) {
+            //   ScaffoldMessenger.of(context).hideCurrentSnackBar();
+            // }
           },
         ),
         backgroundColor: getColorByType(context, type),
@@ -53,7 +67,7 @@ class MatUtils {
       case SnackBarType.error:
         return Theme.of(context).colorScheme.error;
       case SnackBarType.success:
-        return Colors.green;
+        return const Color.fromRGBO(58, 137, 62, 1);
       case SnackBarType.warning:
         return Colors.orange;
       case SnackBarType.info:
@@ -66,9 +80,11 @@ class MatUtils {
   static Color getTextColorByType(BuildContext context, [SnackBarType? type]) {
     switch (type) {
       case SnackBarType.error:
-        return Theme.of(context).colorScheme.onError;
+        // return Theme.of(context).colorScheme.onPrimary;
+        return Colors.white;
       case SnackBarType.success:
-        return Theme.of(context).colorScheme.onPrimary;
+        // return Theme.of(context).colorScheme.onPrimary;
+        return Colors.white;
       case SnackBarType.warning:
         return Theme.of(context).colorScheme.onPrimary;
       case SnackBarType.info:

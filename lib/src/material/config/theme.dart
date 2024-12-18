@@ -25,8 +25,8 @@ const gap = 12.0;
 const errorColorLight = Color.fromARGB(255, 233, 41, 41);
 const greenColorLight = Color.fromRGBO(63, 199, 69, 1);
 
-const errorColorDark = Color.fromARGB(255, 158, 20, 11);
-const greenColorDark = Color.fromRGBO(45, 105, 48, 1);
+const errorColorDark = Color.fromARGB(255, 200, 38, 26);
+const greenColorDark = Color.fromRGBO(58, 137, 62, 1);
 
 ThemeData lightTheme(BuildContext context) => prepareTheme();
 

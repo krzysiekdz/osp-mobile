@@ -7,7 +7,7 @@ part 'menu.dart';
 /* 
   App defaults
 */
-const appMode = AppMode.prod;
+const appMode = AppMode.dev;
 
 const appTitle = 'OSP Pożarnik';
 
@@ -25,4 +25,4 @@ const appConfigProd =
 
 const appConfigDev =
     // OspAppConfig(title: appTitle, url: 'http://localhost:8000');
-    OspAppConfig(title: appTitle, url: 'http://192.168.68.108:8000');
+    OspAppConfig(title: appTitle, url: 'http://192.168.68.110:8000');

@@ -44,9 +44,11 @@ class StrazakPreviewState extends State<StrazakPreview>
   }
 
   void goToEdit() {
-    Timer(const Duration(milliseconds: 200), () {
-      Navigator.of(context).push(MaterialPageRoute(
-          builder: (context) => StrazakFormController(id: item.id)));
+    Timer(const Duration(milliseconds: 200), () async {
+      final Strazak? strazak = await Navigator.of(context).push(
+          MaterialPageRoute(
+              builder: (context) => StrazakFormController(id: item.id)));
+      if (strazak != null) updatePreview(strazak);
     });
   }
 

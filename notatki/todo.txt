@@ -86,6 +86,10 @@ tryb online | offline
 
 ---------------------
 
+ładowanie poczatkowe - ustawic max 5 sekund czekania
+
+---------------------
+
 sprobowac zmienic dynamicznie nawigacje bottom - czy  mimo wejscia w nowy element menu pokaze sie stary widok ktory byl na tym miejscu?
 
 -------------------

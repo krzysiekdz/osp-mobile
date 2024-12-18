@@ -45,9 +45,9 @@ class _StrazakFormState extends State<StrazakForm> {
       create: (context) => widget.createCubit()..init(),
       child: BlocBuilder<StrazakFormCubit, AppFormState<Strazak>>(
         builder: (context, state) {
-          if (state.isPending) {
-            return StrazakFormPending(state: state);
-          } else if (state.isError) {
+          if (state.phase == AppFormPhase.fetch) {
+            return StrazakFormFetching(state: state);
+          } else if (state.phase == AppFormPhase.fetchError) {
             return StrazakFormError(state: state);
           } else {
             return StrazakFormContent(state: state);
@@ -59,8 +59,8 @@ class _StrazakFormState extends State<StrazakForm> {
   }
 }
 
-class StrazakFormPending extends StatelessWidget {
-  const StrazakFormPending({super.key, required this.state});
+class StrazakFormFetching extends StatelessWidget {
+  const StrazakFormFetching({super.key, required this.state});
 
   final AppFormState<Strazak> state;
 
@@ -68,18 +68,10 @@ class StrazakFormPending extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-            title: state.isPending
-                ? const Text('Pobieranie...')
-                : state.isError
-                    ? const Text('Edycja: Wystąpił bład')
-                    : Text(
-                        '${state.current!.nazwisko} ${state.current!.imie}')),
-        body: Center(
-          child: state.isPending
-              ? const CircularProgressIndicator()
-              : state.isError
-                  ? Text(state.err?.msg ?? 'Wystąpił bład')
-                  : Text('${state.current!.nazwisko} ${state.current!.imie}'),
+          title: const Text('Wczytywanie...'),
+        ),
+        body: const Center(
+          child: CircularProgressIndicator(),
         ));
   }
 }
@@ -92,26 +84,38 @@ class StrazakFormError extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-            title: state.isPending
-                ? const Text('Pobieranie...')
-                : state.isError
-                    ? const Text('Edycja: Wystąpił bład')
-                    : Text(
-                        '${state.current!.nazwisko} ${state.current!.imie}')),
+        appBar: AppBar(title: const Text('Wystąpił błąd')),
         body: Center(
-          child: state.isPending
-              ? const CircularProgressIndicator()
-              : state.isError
-                  ? Text(state.err?.msg ?? 'Wystąpił bład')
-                  : Text('${state.current!.nazwisko} ${state.current!.imie}'),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                state.err!.msg,
+                style: const TextStyle(
+                    color: Colors.red,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 22),
+              ),
+              space(2),
+              SizedBox(
+                width: 200,
+                height: 64,
+                child: ElevatedButton(
+                    onPressed: () {
+                      context.read<StrazakFormCubit>().fetch();
+                    },
+                    child: const Text('Ponów')),
+              )
+            ],
+          ),
         ));
   }
 }
 
-//po zapisie wyjscie z formularza lub wyswietlenie bledu
-//wyjscie z formularza - jesli zmiany - czy na pewno?
-//potem z podziałem na zakladki, mozliwoscia zapisz
+//odswiezenie listy
+
+//potem więcej pól + podział na zakladki
+//dodanie zdjecia do edycji
 //potem prosty formularz dodawania
 //potem zrobic analogicznie dla sprzet - czyli wszystko w generyczne klasy
 class StrazakFormContent extends StatefulWidget {
@@ -137,68 +141,132 @@ class _StrazakFormContentState extends State<StrazakFormContent> {
   AppTextFormField<Strazak, StrazakFormCubit> textForm(
           {String initialValue = '',
           required FormChangeCallback<Strazak> onFormChange,
+          AppTextFormValidator? validator,
           String label = ''}) =>
       AppTextFormField<Strazak, StrazakFormCubit>(
         initialValue: initialValue,
         label: label,
+        validator: validator,
         onFormChange: onFormChange,
       );
 
+  bool get hasNoErrors => formKey.currentState!.validate();
+
+  Future<bool?> _showBackDialog() {
+    return showDialog<bool>(
+        context: context, builder: (context) => const AppFormBackDialog());
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text("${c.nazwisko} ${c.imie}"),
-      ),
-      body: Column(
-        children: [
-          Flexible(
-            fit: FlexFit.tight,
-            child: Form(
-              key: formKey,
-              child: SingleChildScrollView(
-                padding: const EdgeInsets.all(gap),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    space(),
-                    textForm(
-                      initialValue: c.imie,
-                      label: 'Imię',
-                      onFormChange: (f, v) => f..imie = v,
-                    ),
-                    space(2),
-                    textForm(
-                      initialValue: c.nazwisko,
-                      label: 'Nazwisko',
-                      onFormChange: (f, v) => f..nazwisko = v,
-                    ),
-                    space(),
-                  ],
+    return PopScope(
+      canPop: false,
+      onPopInvoked: (didPop) async {
+        if (didPop) return;
+        if (!state.isDirty) {
+          Navigator.pop(context);
+          return;
+        }
+        final canPop = await _showBackDialog() ?? false;
+        if (canPop && context.mounted) {
+          Navigator.pop(context);
+        }
+      },
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text("${c.nazwisko} ${c.imie}"),
+        ),
+        body: Column(
+          children: [
+            Flexible(
+              fit: FlexFit.tight,
+              child: Form(
+                key: formKey,
+                autovalidateMode: AutovalidateMode.onUserInteraction,
+                child: SingleChildScrollView(
+                  padding: const EdgeInsets.all(gap),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      space(),
+                      textForm(
+                          initialValue: c.imie,
+                          label: 'Imię',
+                          onFormChange: (f, v) => f..imie = v,
+                          validator: notEmpty('Podaj imię')),
+                      space(2),
+                      textForm(
+                        initialValue: c.nazwisko,
+                        label: 'Nazwisko',
+                        onFormChange: (f, v) => f..nazwisko = v,
+                        validator: notEmpty('Podaj nazwisko'),
+                      ),
+                      space(),
+                    ],
+                  ),
                 ),
               ),
             ),
-          ),
-          Flexible(
-            flex: 0,
-            child: Container(
-              decoration: BoxDecoration(color: Theme.of(context).cardColor),
-              padding: const EdgeInsets.all(gap),
-              child: AppFilledButton(
-                textLabel: 'Zapisz',
-                isDisabled: !state.isDirty || state.isSaving,
-                isPending: state.isSaving,
-                onPressed: () async {
-                  final res = await cubit.save();
-                  if (res && context.mounted) {
-                    Navigator.of(context).pop();
-                  }
-                },
+            Flexible(
+              flex: 0,
+              child: Container(
+                decoration: BoxDecoration(color: Theme.of(context).cardColor),
+                padding: const EdgeInsets.all(gap),
+                child: AppFilledButton(
+                  textLabel: 'Zapisz',
+                  isDisabled: !state.isDirty ||
+                      (state.phase == AppFormPhase.dataSave) ||
+                      (state.phase == AppFormPhase.dataSaveSuccess) ||
+                      !hasNoErrors,
+                  isPending: state.phase == AppFormPhase.dataSave,
+                  onPressed: () async {
+                    final res = await cubit.save();
+                    if (res && context.mounted) {
+                      Navigator.of(context).pop(c);
+                    }
+                  },
+                ),
               ),
             ),
-          )
-        ],
+            if (state.phase == AppFormPhase.dataSaveError)
+              SnackbarDisplay(
+                  snackbarMsg: state.err?.msg ?? 'Wystąpił błąd',
+                  snackbarType: SnackBarType.error,
+                  config: const SnackBarConfig(
+                      margin: EdgeInsets.only(bottom: 80),
+                      behavior: SnackBarBehavior.floating)),
+            if (state.phase == AppFormPhase.dataSaveSuccess)
+              const SnackbarDisplay(
+                snackbarMsg: 'Zapisano pomyślnie!',
+                snackbarType: SnackBarType.success,
+              )
+          ],
+        ),
       ),
+    );
+  }
+}
+
+class AppFormBackDialog extends StatelessWidget {
+  const AppFormBackDialog({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      title: const Text('Czy zamknąć bez zapisywania?'),
+      content: const Text(''),
+      actions: [
+        TextButton(
+            onPressed: () {
+              Navigator.pop(context, true);
+            },
+            child: const Text('Zamknij')),
+        TextButton(
+            onPressed: () {
+              Navigator.pop(context, false);
+            },
+            child: const Text('Nie zamykaj'))
+      ],
     );
   }
 }

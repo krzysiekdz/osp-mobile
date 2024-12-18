@@ -7,10 +7,12 @@ class AppTextFormField<T extends TBase, C extends BaseFormCubit<T>>
   final String initialValue;
   final String label;
   final FormChangeCallback<T> onFormChange;
+  final AppTextFormValidator? validator;
   const AppTextFormField(
       {super.key,
       this.initialValue = '',
       this.label = '',
+      this.validator,
       required this.onFormChange});
 
   @override
@@ -23,6 +25,7 @@ class AppTextFormField<T extends TBase, C extends BaseFormCubit<T>>
         cub.updateForm(onFormChange(cub.state.current!, v),
             onFormChange(cub.state.buffer!, v));
       },
+      validator: validator,
     );
   }
 }

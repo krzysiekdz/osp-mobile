@@ -21,7 +21,7 @@ class _LoginState extends State<LoginView> {
     super.dispose();
   }
 
-  String? validatePassword(value) {
+  String? validatePassword(String? value) {
     if (value == null || value.isEmpty) {
       return 'Podaj hasło';
     }
@@ -36,8 +36,8 @@ class _LoginState extends State<LoginView> {
       context.read<OspAppCubit>().login(cEmail.text, cPassword.text);
     } else {
       if (_formDirty) {
-        MatUtils.showSnackBar(
-            context, 'Wpisz poprawnie email i hasło', SnackBarType.error);
+        MatUtils.showSnackBar(context, 'Wpisz poprawnie email i hasło',
+            type: SnackBarType.error);
       }
     }
 

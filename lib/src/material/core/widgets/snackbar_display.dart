@@ -3,9 +3,11 @@ part of '../index.dart';
 class SnackbarDisplay extends StatefulWidget {
   final String snackbarMsg;
   final SnackBarType snackbarType;
+  final SnackBarConfig? config;
   const SnackbarDisplay(
       {super.key,
       this.snackbarMsg = '',
+      this.config,
       this.snackbarType = SnackBarType.error});
 
   @override
@@ -22,7 +24,7 @@ class _SnackbarDisplayState extends State<SnackbarDisplay> {
   @override
   void didUpdateWidget(covariant SnackbarDisplay oldWidget) {
     super.didUpdateWidget(oldWidget);
-    _callShowSnackbar();
+    if (oldWidget.snackbarMsg != widget.snackbarMsg) _callShowSnackbar();
   }
 
   void _callShowSnackbar() {
@@ -34,7 +36,8 @@ class _SnackbarDisplayState extends State<SnackbarDisplay> {
   }
 
   void _showSnackbar() {
-    MatUtils.showSnackBar(context, widget.snackbarMsg, widget.snackbarType);
+    MatUtils.showSnackBar(context, widget.snackbarMsg,
+        type: widget.snackbarType, config: widget.config);
   }
 
   @override
