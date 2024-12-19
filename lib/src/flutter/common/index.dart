@@ -7,3 +7,5 @@ export 'package:osp_mobile/src/dart/common/index.dart';
 
 part 'types/osp_route.dart';
 part 'types/list.dart';
+
+part 'widgets/registry.dart';

@@ -11,13 +11,15 @@ class OspMaterialApp extends StatelessWidget {
           create: (_) => DioApi1Service(),
         ),
       ],
-      child: MaterialApp(
-        debugShowCheckedModeBanner: false,
-        title: appTitle,
-        theme: lightTheme(context),
-        darkTheme: darkTheme(context),
-        themeMode: ThemeMode.dark,
-        home: const AppScaffold(),
+      child: AppRegistry(
+        child: MaterialApp(
+          debugShowCheckedModeBanner: false,
+          title: appTitle,
+          theme: lightTheme(context),
+          darkTheme: darkTheme(context),
+          themeMode: ThemeMode.dark,
+          home: const AppScaffold(),
+        ),
       ),
     );
   }
