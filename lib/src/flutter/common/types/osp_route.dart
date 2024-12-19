@@ -16,3 +16,10 @@ class OspRoute extends AppRoute<OspRouteName, OspRouteParams> {
   OspRoute(
       {required super.menuItem, required super.factory, required super.name});
 }
+
+@immutable
+class OspRouteReturnData {
+  final bool doRefresh;
+  final dynamic data;
+  const OspRouteReturnData({this.doRefresh = false, this.data});
+}

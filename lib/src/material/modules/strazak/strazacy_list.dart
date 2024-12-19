@@ -64,7 +64,7 @@ class StrazakListItem extends StatelessWidget {
     // final emptyImg =
     //     Theme.of(context).brightness == Brightness.dark ? imgDark : imgLight;
 
-    return AppListTile(
+    return AppListTile<Strazak, StrazakListCubit>(
       previewBuilder: (context) => StrazakPreview(
         item: item,
         appState: p.appState,

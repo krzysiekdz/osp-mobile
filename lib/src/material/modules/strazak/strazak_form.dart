@@ -112,12 +112,6 @@ class StrazakFormError extends StatelessWidget {
   }
 }
 
-//odswiezenie listy
-
-//potem więcej pól + podział na zakladki
-//dodanie zdjecia do edycji
-//potem prosty formularz dodawania
-//potem zrobic analogicznie dla sprzet - czyli wszystko w generyczne klasy
 class StrazakFormContent extends StatefulWidget {
   const StrazakFormContent({super.key, required this.state});
 
@@ -167,6 +161,9 @@ class _StrazakFormContentState extends State<StrazakFormContent> {
           Navigator.pop(context);
           return;
         }
+        //nie można wyjsc z formularza podczas zapisywania
+        if (state.phase == AppFormPhase.dataSave) return;
+
         final canPop = await _showBackDialog() ?? false;
         if (canPop && context.mounted) {
           Navigator.pop(context);
@@ -222,7 +219,8 @@ class _StrazakFormContentState extends State<StrazakFormContent> {
                   onPressed: () async {
                     final res = await cubit.save();
                     if (res && context.mounted) {
-                      Navigator.of(context).pop(c);
+                      Navigator.of(context)
+                          .pop(OspRouteReturnData(doRefresh: true, data: c));
                     }
                   },
                 ),

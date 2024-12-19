@@ -1,6 +1,6 @@
 part of '../index.dart';
 
-class AppListTile extends StatelessWidget {
+class AppListTile<T, C extends BaseListCubit<T>> extends StatelessWidget {
   const AppListTile(
       {super.key,
       this.previewBuilder,
@@ -20,9 +20,12 @@ class AppListTile extends StatelessWidget {
     return InkWell(
       onTap: previewBuilder != null
           ? () {
-              Timer(const Duration(milliseconds: 200), () {
-                Navigator.of(context)
+              Timer(const Duration(milliseconds: 200), () async {
+                final OspRouteReturnData? retData = await Navigator.of(context)
                     .push(MaterialPageRoute(builder: previewBuilder!));
+                if (context.mounted && retData != null && retData.doRefresh) {
+                  context.read<C>().refresh();
+                }
               });
             }
           : null,

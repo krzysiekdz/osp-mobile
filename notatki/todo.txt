@@ -19,6 +19,12 @@ opcja wiecej: usun
 
 -----------------
 
+//formularz dodawania
+//więcej pól + podział na zakladki
+//dodanie zdjecia do edycji
+//potem zrobic analogicznie dla sprzet - czyli wszystko w generyczne klasy
+
+
 edycja imie i nazwisko - mechanizm formularza, aby zapisywac, raczej tylko przycisk "Zapisz"
     edycja - mozliwosc przekazania obiektu, zamiast pobierania go z api - zapisz robi zapisz w api 
     jako opcje: zapisz, zapisz i pokaz (brak zapisz i zamknij, bo zapisz zawsze zamyka)

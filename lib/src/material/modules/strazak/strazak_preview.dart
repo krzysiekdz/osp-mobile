@@ -17,6 +17,8 @@ class StrazakPreviewState extends State<StrazakPreview>
 
   late final TabController tabController;
 
+  OspRouteReturnData? returnData;
+
   final List<Tab> tabs = const [
     Tab(text: 'Dane strażackie'),
     Tab(text: 'Dane osobowe'),
@@ -45,87 +47,98 @@ class StrazakPreviewState extends State<StrazakPreview>
 
   void goToEdit() {
     Timer(const Duration(milliseconds: 200), () async {
-      final Strazak? strazak = await Navigator.of(context).push(
+      final OspRouteReturnData? ret = await Navigator.of(context).push(
           MaterialPageRoute(
               builder: (context) => StrazakFormController(id: item.id)));
-      if (strazak != null) updatePreview(strazak);
+      if (ret != null && (ret.data is Strazak)) {
+        returnData = ret;
+        updatePreview(ret.data);
+      }
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('${item.nazwisko} ${item.imie}'),
-        actions: [
-          IconButton(onPressed: goToEdit, icon: const Icon(Icons.edit))
-        ],
-      ),
-      body: Column(
-        children: [
-          const SizedBox(height: gap),
-          Padding(
-            padding: const EdgeInsets.all(gap),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Card(
-                  margin: const EdgeInsets.all(0),
-                  color: Colors.white,
-                  child: Padding(
-                    padding: const EdgeInsets.all(4.0),
-                    child: StrazakImg(
-                      imgUrl: item.imgUrl,
-                      width: 140,
-                      height: 180,
+    return PopScope(
+      canPop: false,
+      onPopInvoked: (didPop) {
+        if (!didPop) {
+          Navigator.pop(context, returnData);
+        }
+      },
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text('${item.nazwisko} ${item.imie}'),
+          actions: [
+            IconButton(onPressed: goToEdit, icon: const Icon(Icons.edit))
+          ],
+        ),
+        body: Column(
+          children: [
+            const SizedBox(height: gap),
+            Padding(
+              padding: const EdgeInsets.all(gap),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Card(
+                    margin: const EdgeInsets.all(0),
+                    color: Colors.white,
+                    child: Padding(
+                      padding: const EdgeInsets.all(4.0),
+                      child: StrazakImg(
+                        imgUrl: item.imgUrl,
+                        width: 140,
+                        height: 180,
+                      ),
                     ),
                   ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Column(
-                    children: [
-                      IconButton.filled(
-                          onPressed: () {}, icon: const Icon(Icons.phone)),
-                      const Text('Zadzwoń'),
-                      space(2),
-                      IconButton.filled(
-                          onPressed: () {}, icon: const Icon(Icons.sms)),
-                      const Text('SMS'),
-                    ],
-                  ),
-                )
-              ],
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Column(
+                      children: [
+                        IconButton.filled(
+                            onPressed: () {}, icon: const Icon(Icons.phone)),
+                        const Text('Zadzwoń'),
+                        space(2),
+                        IconButton.filled(
+                            onPressed: () {}, icon: const Icon(Icons.sms)),
+                        const Text('SMS'),
+                      ],
+                    ),
+                  )
+                ],
+              ),
             ),
-          ),
-          space(),
-          TabBar(
-            tabs: tabs,
-            controller: tabController,
-            isScrollable: true,
-            tabAlignment: TabAlignment.start,
-          ),
-          Expanded(
-            child: TabBarView(controller: tabController, children: [
-              StrazacyPreviewTab1(
-                item: item,
-                appState: appState,
-              ),
-              StrazacyPreviewTab2(
-                item: item,
-                appState: appState,
-              ),
-              StrazacyPreviewTab3(
-                item: item,
-                appState: appState,
-              ),
-              StrazacyPreviewTab4(
-                item: item,
-                appState: appState,
-              ),
-            ]),
-          ),
-        ],
+            space(),
+            TabBar(
+              tabs: tabs,
+              controller: tabController,
+              isScrollable: true,
+              tabAlignment: TabAlignment.start,
+            ),
+            Expanded(
+              child: TabBarView(controller: tabController, children: [
+                StrazacyPreviewTab1(
+                  item: item,
+                  appState: appState,
+                ),
+                StrazacyPreviewTab2(
+                  item: item,
+                  appState: appState,
+                ),
+                StrazacyPreviewTab3(
+                  item: item,
+                  appState: appState,
+                ),
+                StrazacyPreviewTab4(
+                  item: item,
+                  appState: appState,
+                ),
+              ]),
+            ),
+          ],
+        ),
       ),
     );
   }
