@@ -1,3 +1,38 @@
+base form cubit - dodanie app form params
+
+formularz dodawania
+więcej pól + podział na zakladki
+dodanie zdjecia do edycji
+potem zrobic analogicznie dla sprzet - czyli wszystko w generyczne klasy
+
+------------------------
+opcje formularza: 
+
+przekazano id - odwolujemy sie do repo po tym id (jesli id=0 to wtedy prawdopodobnie chcemy pobrac domyslna konfiguracje dla obiektu, zapewne dla form create)
+przekazano item oraz id - postepujemy tak, jak przekazano id po czym robimy merge na item oraz obiekcie z repo 
+przekazano tylko item - operujemy na tym obiekcie, tak jakbysmy otryzmali go z repo
+
+jesli nie robimy operacji na repo, czy powinnismy zwrocic doRefresh?
+
+1. update: 
+przekazano id - 
+    opcja: pobieramy obiekt i edytujemy na repo
+    opcja: pobieramy obiekt i zwracamy (bez update na repo)
+przekazano obiekt - 
+    opcja edytuj na repo 
+    opcja edytuj i zwroc obiekt (bez update na repo)
+
+wtedy odpowiedni config do form controller 
+
+2. create 
+nie przekazano obiektu - tworzymy na podstawie obiektu domyslnego,
+     create on repo 
+     not create on repo 
+przekazano obiekt wstepnie skonfigurowany
+     create on repo 
+     not create on repo 
+
+
 -----------------
 strazak lista:
 duza czcionka i rozmiar - poprawic aby w liscie nie bylo overflow
@@ -15,15 +50,7 @@ w niektórych polach: nr legitymacji, pesel - mozliwosc skopiowania
 opcja: zadzwon, sms - jesli brak nrTel, to sa wyszarzone
 ustaw zdjecie 
 opcja wiecej: usun
-
-
------------------
-
-//formularz dodawania
-//więcej pól + podział na zakladki
-//dodanie zdjecia do edycji
-//potem zrobic analogicznie dla sprzet - czyli wszystko w generyczne klasy
-
+------------------------
 
 edycja imie i nazwisko - mechanizm formularza, aby zapisywac, raczej tylko przycisk "Zapisz"
     edycja - mozliwosc przekazania obiektu, zamiast pobierania go z api - zapisz robi zapisz w api 

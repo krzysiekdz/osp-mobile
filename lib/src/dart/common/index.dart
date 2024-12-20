@@ -10,6 +10,7 @@ export 'package:osp_mobile/src/dart/config/index.dart';
 
 part 'types/api_1.dart';
 part 'types/base.dart';
+part 'types/form.dart';
 
 part 'services/app_config_service.dart';
 part 'services/dio_api_service.dart';

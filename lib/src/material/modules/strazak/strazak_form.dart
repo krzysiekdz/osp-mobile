@@ -1,17 +1,21 @@
 part of 'index.dart';
 
-enum FormType { create, edit }
-
-//zrobic dwa formularze - jeden ktory operuje na repository (api), oraz drugi ktory tylko edytuje i zwraca obiekt;
-
 class StrazakFormController extends StatelessWidget {
   final dynamic id;
+  final Strazak? item;
+  final bool doRepoAction;
+  final AppFormType formType;
 
-  const StrazakFormController({super.key, required this.id});
+  const StrazakFormController(
+      {super.key,
+      this.id,
+      this.item,
+      this.doRepoAction = true,
+      this.formType = AppFormType.update});
 
   @override
   Widget build(BuildContext context) {
-    final params = OspRouteParams(
+    final params = OspRouteParams<Strazak>(
         api1service: context.watch<Api1Service>(), params: {'id': id});
     return StrazakForm(params: params);
   }

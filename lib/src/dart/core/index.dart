@@ -2,7 +2,6 @@ library app.core_dart;
 
 import 'dart:async';
 
-// import 'package:bloc/bloc.dart';
 import 'package:osp_mobile/src/dart/common/index.dart';
 
 export 'package:bloc/bloc.dart';
@@ -18,5 +17,3 @@ part 'cubit/base_list.dart';
 part 'cubit/base_form.dart';
 
 part 'utils/validation.dart';
-
-// part 'cubit/api_list.dart';

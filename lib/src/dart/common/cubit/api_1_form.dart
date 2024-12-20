@@ -3,5 +3,5 @@ part of '../index.dart';
 abstract class Api1FormCubit<T extends TBase> extends BaseFormCubit<T> {
   Api1Service apiService;
   Api1FormCubit(this.apiService,
-      {super.initialState, super.fetchOnInit, super.id, super.params});
+      {super.initialState, required super.formParams, super.params});
 }

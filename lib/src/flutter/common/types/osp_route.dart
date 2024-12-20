@@ -1,14 +1,16 @@
 part of '../index.dart';
 
-class OspRouteParams extends AppRouteParams {
+class OspRouteParams<T extends TBase> extends AppRouteParams {
   final Widget? menuBottom;
   final Api1Service? api1service;
   final Widget? floatingActionButton;
+  final AppFormParams<T>? formParams;
 
   const OspRouteParams(
       {this.menuBottom,
       this.api1service,
       this.floatingActionButton,
+      this.formParams,
       super.params});
 }
 

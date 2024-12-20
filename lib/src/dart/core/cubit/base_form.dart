@@ -2,35 +2,38 @@ part of '../index.dart';
 
 abstract class BaseFormCubit<T extends TBase> extends Cubit<AppFormState<T>> {
   late final Repository<T> repo;
-  final bool fetchOnInit;
-  dynamic id;
+  final AppFormParams<T> formParams;
   Map<String, dynamic>? params;
   final List<Future<T>> _pendingTasks = [];
   final formChanges = StreamController<_FormChanges<T>>();
   final formChangesDelay = 200;
+  bool _inited = false;
   BaseFormCubit(
-      {this.fetchOnInit = true,
-      AppFormState<T>? initialState,
-      this.id,
-      this.params})
-      : super(initialState ??
-            AppFormState<T>(
-                phase: (fetchOnInit && id != null)
-                    ? AppFormPhase.fetch
-                    : AppFormPhase.data));
+      {AppFormState<T>? initialState, required this.formParams, this.params})
+      : super(initialState ?? AppFormState<T>(phase: AppFormPhase.data));
 
+  //callable only once
   void init() {
+    if (_inited) return;
+    _inited = true;
     repo = createRepo();
     formChanges.stream
         .debounceTime(Duration(milliseconds: formChangesDelay))
         .listen((fc) => updateFormNow(fc.current, fc.buffer));
-    if (fetchOnInit && id != null) fetch();
+    if (fetchOnInit) {
+      fetch();
+    } else if (formParams.item != null) {
+      _setItem(formParams.item!);
+    } else {
+      _setItem(repo.createElement({}));
+    }
   }
 
-  void setId(id) {
-    this.id = id;
-  }
+  // nie musi byc tylko dla 'update', bo dla 'create' mozna pobierac w ten sposob domyslny obiekt z repo, np dla id=0
+  // teoretycznie mozna tez przekazac item i wtedy nalezy zrobic merge na przekazanym item oraz obiekcie pobranym z repo
+  bool get fetchOnInit => (formParams.id != null);
 
+  //dodatkowe parametry do repo
   void setParams(Map<String, dynamic> params) {
     this.params = params;
   }
@@ -39,20 +42,32 @@ abstract class BaseFormCubit<T extends TBase> extends Cubit<AppFormState<T>> {
 
   T createBuffer() => repo.createElement({});
 
+  T copyItem(T item) => repo.copy(item);
+
+  void _setItem(T item) {
+    emit(state.copyWith(
+        initial: item,
+        current: copyItem(item),
+        buffer: createBuffer(),
+        phase: AppFormPhase.data));
+  }
+
   void fetch() async {
     _cancelPendingTasks();
     emit(state.copyWith(phase: AppFormPhase.fetch, clearError: true));
     late Future<T> pendingTask;
     try {
-      pendingTask = repo.get(id: id, params: params ?? {});
+      pendingTask = repo.get(id: formParams.id, params: params ?? {});
       _pendingTasks.add(pendingTask);
       final T item = await pendingTask;
       if (isClosed) return;
-      emit(state.copyWith(
-          initial: item,
-          current: repo.copy(item),
-          buffer: createBuffer(),
-          phase: AppFormPhase.data));
+      if (formParams.item != null) {
+        final item2 = copyItem(formParams.item!);
+        item2.merge(item);
+        _setItem(item2);
+      } else {
+        _setItem(item);
+      }
     } on RepositoryException catch (e) {
       if (isClosed) return;
       emit(state.copyWith(
@@ -78,12 +93,16 @@ abstract class BaseFormCubit<T extends TBase> extends Cubit<AppFormState<T>> {
 
   Future<bool> save() async {
     if (state.buffer == null || state.initial == null) return false;
+
+    //jesli nie wykonujemy operacji na repo - zwracamy sukces
+    if (!formParams.doRepoAction) return true;
+
     _cancelPendingTasks();
     emit(state.copyWith(phase: AppFormPhase.dataSave, clearError: true));
     late Future<T> pendingTask;
     try {
-      final id = state.initial!.id;
-      if (id != 0) {
+      if (formParams.formType == AppFormType.update) {
+        final id = state.initial!.id ?? formParams.id;
         pendingTask = repo.update(state.buffer!, params: {'id': id});
       } else {
         pendingTask = repo.create(state.buffer!);

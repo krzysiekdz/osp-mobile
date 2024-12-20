@@ -16,6 +16,10 @@ class TBase {
       d?.map<String, dynamic>((i, v) =>
           other.containsKey(i) ? MapEntry(i, other[i]) : MapEntry(i, v));
 
+  void merge(TBase other) {
+    _d?.addAll(other.d ?? {});
+  }
+
   bool isEmpty() => d?.isEmpty ?? true;
 }
 
