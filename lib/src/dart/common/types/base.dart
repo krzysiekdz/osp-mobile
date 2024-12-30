@@ -23,127 +23,124 @@ class TBase {
   bool isEmpty() => d?.isEmpty ?? true;
 }
 
-class TDict {
+class DictPair {
+  final dynamic key;
   final dynamic value;
-  final String text;
-  const TDict({this.value = '', this.text = ''});
-  TDict.json(Map<String, dynamic>? json)
-      : value = json?['value'] ?? '',
-        text = json?['text'] ?? '';
+  const DictPair({this.key = '', this.value = ''});
+  DictPair.json(Map<String, dynamic>? json)
+      : key = json?['value'] ?? '',
+        value = json?['text'] ?? '';
 
-  TDict.json2(Map<String, dynamic>? json)
-      : value = json?['ident'] ?? '',
-        text = json?['nazwa'] ?? '';
+  DictPair.json2(Map<String, dynamic>? json)
+      : key = json?['ident'] ?? '',
+        value = json?['nazwa'] ?? '';
 
-  static TDict find(List<TDict> list, dynamic value,
+  static DictPair find(List<DictPair> list, dynamic key,
       [String notFoundText = '']) {
-    return list.firstWhere((e) => e.value == value,
-        orElse: () => TDict(text: notFoundText));
+    return list.firstWhere((e) => e.key == key,
+        orElse: () => DictPair(value: notFoundText));
   }
 
   @override
   String toString() {
-    return "TDict($text : $value)";
+    return "DictPair($key => $value)";
   }
 }
 
 mixin TBase2 on TBase {
-  String get nazwa => _d?['nazwa'] ?? '';
-  set nazwa(String nazwa) => _d?['nazwa'] = nazwa;
+  String get name => _d?['nazwa'] ?? '';
+  set name(String v) => _d?['nazwa'] = v;
 
-  String get uwagi => _d?['uwagi'] ?? '';
-  set uwagi(String uwagi) => _d?['uwagi'] = uwagi;
+  String get comments => _d?['uwagi'] ?? '';
+  set comments(String v) => _d?['uwagi'] = v;
 }
 
 mixin TPerson on TBase {
-  String get imie => _d?['imie'] ?? '';
-  set imie(String imie) => _d?['imie'] = imie;
+  String get firstName => _d?['imie'] ?? '';
+  set firstName(String v) => _d?['imie'] = v;
 
-  String get drugieImie => _d?['drugie_imie'] ?? '';
-  set drugieImie(String imie) => _d?['drugie_imie'] = imie;
+  String get middleName => _d?['drugie_imie'] ?? '';
+  set middleName(String v) => _d?['drugie_imie'] = v;
 
-  String get nazwisko => _d?['nazwisko'] ?? '';
-  set nazwisko(String nazwisko) => _d?['nazwisko'] = nazwisko;
+  String get lastName => _d?['nazwisko'] ?? '';
+  set lastName(String v) => _d?['nazwisko'] = v;
 }
 
-mixin TAdres on TBase {
-  String get miejscowosc => _d?['miejscowosc'] ?? '';
-  set miejscowosc(String miejscowosc) => _d?['miejscowosc'] = miejscowosc;
+mixin TAddress on TBase {
+  String get city => _d?['miejscowosc'] ?? '';
+  set city(String v) => _d?['miejscowosc'] = v;
 
-  String get ulica => _d?['ulica'] ?? '';
-  set ulica(String ulica) => _d?['ulica'] = ulica;
+  String get street => _d?['ulica'] ?? '';
+  set street(String v) => _d?['ulica'] = v;
 
-  String get nrBudynku => _d?['nr_budynku'] ?? '';
-  set nrBudynku(String nrBudynku) => _d?['nr_budynku'] = nrBudynku;
+  String get buildingNo => _d?['nr_budynku'] ?? '';
+  set buildingNo(String v) => _d?['nr_budynku'] = v;
 
-  String get kodPocztowy => _d?['kod_pocztowy'] ?? '';
-  set kodPocztowy(String kodPocztowy) => _d?['kod_pocztowy'] = kodPocztowy;
+  String get zipCode => _d?['kod_pocztowy'] ?? '';
+  set zipCode(String v) => _d?['kod_pocztowy'] = v;
 
-  String get poczta => _d?['poczta'] ?? '';
-  set poczta(String poczta) => _d?['poczta'] = poczta;
+  String get postOffice => _d?['poczta'] ?? '';
+  set postOffice(String v) => _d?['poczta'] = v;
 }
 
 mixin TType on TBase {
   String get type => _d?['type'] ?? '';
-  set type(String type) => _d?['type'] = type;
+  set type(String v) => _d?['type'] = v;
 }
 
 mixin TTypeI on TBase {
   int get type => _d?['type'] ?? '';
-  set type(int type) => _d?['type'] = type;
+  set type(int v) => _d?['type'] = v;
 }
 
 mixin TStatus on TBase {
   int get status => _d?['status'] ?? '';
-  set status(int status) => _d?['status'] = status;
+  set status(int v) => _d?['status'] = v;
 }
 
 mixin TContact on TBase {
   String get email => _d?['email'] ?? '';
-  set email(String email) => _d?['email'] = email;
+  set email(String v) => _d?['email'] = v;
 
-  String get nrTel => _d?['nr_tel'] ?? '';
-  set nrTel(String nrTel) => _d?['nr_tel'] = nrTel;
+  String get phoneNo => _d?['nr_tel'] ?? '';
+  set phoneNo(String v) => _d?['nr_tel'] = v;
 
-  String get nrTel2 => _d?['nr_tel2'] ?? '';
-  set nrTel2(String nrTel2) => _d?['nr_tel2'] = nrTel2;
+  String get phoneNo2 => _d?['nr_tel2'] ?? '';
+  set phoneNo2(String v) => _d?['nr_tel2'] = v;
 }
 
-mixin TWymiary on TBase {
-  double get wzrost => _d?['wzrost']?.toDouble() ?? 0.0;
-  set wzrost(double wzrost) => _d?['wzrost'] = wzrost;
+mixin TSizes on TBase {
+  double get height => _d?['wzrost']?.toDouble() ?? 0.0;
+  set height(double v) => _d?['wzrost'] = v;
 
-  double get nrButa => _d?['numer_buta']?.toDouble() ?? 0.0;
-  set nrButa(double numer_buta) => _d?['numer_buta'] = numer_buta;
+  double get shoeNo => _d?['numer_buta']?.toDouble() ?? 0.0;
+  set shoeNo(double v) => _d?['numer_buta'] = v;
 
-  double get obWKlatcePiers =>
-      _d?['obwod_w_klatce_piersiowej']?.toDouble() ?? 0.0;
-  set obWKlatcePiers(double obwod_w_klatce_piersiowej) =>
-      _d?['obwod_w_klatce_piersiowej'] = obwod_w_klatce_piersiowej;
+  double get chestCircum => _d?['obwod_w_klatce_piersiowej']?.toDouble() ?? 0.0;
+  set chestCircum(double v) => _d?['obwod_w_klatce_piersiowej'] = v;
 
-  double get obWPasie => _d?['obwod_w_pasie']?.toDouble() ?? 0.0;
-  set obWPasie(double obwod_w_pasie) => _d?['obwod_w_pasie'] = obwod_w_pasie;
+  double get waistCircum => _d?['obwod_w_pasie']?.toDouble() ?? 0.0;
+  set waistCircum(double v) => _d?['obwod_w_pasie'] = v;
 
-  double get obwodGlowy => _d?['obwod_glowy']?.toDouble() ?? 0.0;
-  set obwodGlowy(double obwod_glowy) => _d?['obwod_glowy'] = obwod_glowy;
+  double get headCircum => _d?['obwod_glowy']?.toDouble() ?? 0.0;
+  set headCircum(double v) => _d?['obwod_glowy'] = v;
 
-  double get obwodSzyi => _d?['obwod_szyi']?.toDouble() ?? 0.0;
-  set obwodSzyi(double obwod_szyi) => _d?['obwod_szyi'] = obwod_szyi;
+  double get neckCircum => _d?['obwod_szyi']?.toDouble() ?? 0.0;
+  set neckCircum(double v) => _d?['obwod_szyi'] = v;
 
-  String get rozmiarRloni => _d?['rozmiar_dloni'] ?? '';
-  set rozmiarRloni(String rozmiar_dloni) =>
-      _d?['rozmiar_dloni'] = rozmiar_dloni;
+  String get handSize => _d?['rozmiar_dloni'] ?? '';
+  set handSize(String v) => _d?['rozmiar_dloni'] = v;
 }
 
-mixin TAdres2 on TBase {
-  String get wojewodztwo => _d?['wojewodztwo'] ?? '';
-  set wojewodztwo(String wojewodztwo) => _d?['wojewodztwo'] = wojewodztwo;
+mixin TAddress2 on TBase {
+  String get province => _d?['wojewodztwo'] ?? '';
+  set province(String v) => _d?['wojewodztwo'] = v;
 
-  String get powiat => _d?['powiat'] ?? '';
-  set powiat(String powiat) => _d?['powiat'] = powiat;
+  String get district => _d?['powiat'] ?? '';
+  set district(String v) => _d?['powiat'] = v;
 
-  String get gmina => _d?['gmina'] ?? '';
-  set gmina(String gmina) => _d?['gmina'] = gmina;
+  String get commune => _d?['gmina'] ?? '';
+  set commune(String v) => _d?['gmina'] = v;
 }
 
 mixin TDate on TBase {
@@ -158,4 +155,50 @@ mixin TDate on TBase {
   DateTime get dateEndAsDate => DateTime.parse(dateEnd);
   set dateStartAsDate(DateTime dt) => dateStart = dt.toString();
   set dateEndAsDate(DateTime dt) => dateEnd = dt.toString();
+}
+
+mixin TImageUrl on TBase {
+  String get imgUrl {
+    final imgUrl = d?['img_url'] ?? '';
+    if (appMode == AppMode.dev) {
+      return imgUrl.replaceAll('https', 'http');
+    }
+    return imgUrl;
+  }
+}
+
+mixin TPrice on TBase {
+  double get netPrice => _d?['cena_n'] ?? 0;
+  set netPrice(double v) => _d?['cena_n'] = v;
+
+  double get grossPrice => _d?['cena_b'] ?? 0;
+  set grossPrice(double v) => _d?['cena_b'] = v;
+
+  double get vatPrice => _d?['cena_v'] ?? 0;
+  set vatPrice(double v) => _d?['cena_v'] = v;
+
+  double get vatRate => _d?['stawka_vat'] ?? 0;
+  set vatRate(double v) => _d?['stawka_vat'] = v;
+
+  double get netTotal => _d?['wartosc_n'] ?? 0;
+  set netTotal(double v) => _d?['wartosc_n'] = v;
+
+  double get grossTotal => _d?['wartosc_b'] ?? 0;
+  set grossTotal(double v) => _d?['wartosc_b'] = v;
+
+  double get vatTotal => _d?['wartosc_v'] ?? 0;
+  set vatTotal(double v) => _d?['wartosc_v'] = v;
+
+  double get qty => _d?['ilosc'] ?? 0;
+  set qty(double v) => _d?['ilosc'] = v;
+}
+
+class Product extends TBase with TPrice, TBase2 {
+  const Product(super._d);
+
+  String get unit => _d?['jm'] ?? '';
+  set unit(String v) => _d?['jm'] = v;
+
+  String get symbol => _d?['symbol'] ?? '';
+  set symbol(String v) => _d?['symbol'] = v;
 }
