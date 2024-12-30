@@ -4,9 +4,11 @@ part of '../index.dart';
 abstract class DioApiService<R extends Response> implements ApiService {
   late final String baseUrl;
   final Map<String, dynamic> _params = {};
-  final dio.Dio _dio = dio.Dio();
+  final dio.Dio _dio;
 
-  DioApiService() {
+  DioApiService()
+      : _dio = dio.Dio(
+            dio.BaseOptions(connectTimeout: const Duration(seconds: 10))) {
     baseUrl = createBaseUrl();
   }
 
