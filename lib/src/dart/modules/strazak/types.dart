@@ -75,7 +75,7 @@ class StrazakListCubit extends Api1ListCubit<Strazak> {
 }
 
 class StrazakFormCubit extends Api1FormCubit<Strazak> {
-  StrazakFormCubit(super.apiService, {required super.formParams});
+  StrazakFormCubit(super.apiService, {required super.formParams, super.params});
 
   @override
   Repository<Strazak> createRepo() => StrazakRepo(apiService);

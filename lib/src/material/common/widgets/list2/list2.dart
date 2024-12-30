@@ -2,6 +2,8 @@ part of '../../index.dart';
 
 typedef MatList2SliverBuilder<T> = Widget Function(ListState<T> state);
 
+typedef AppWithMapCallback = void Function(Map<String, dynamic>? params);
+
 abstract class MatCubitableList2<T, C extends BaseListCubit<T>>
     extends StatefulWidget {
   const MatCubitableList2({super.key, this.params});
@@ -19,6 +21,8 @@ abstract class MatCubitableList2<T, C extends BaseListCubit<T>>
 
   bool get keepAlive => true;
 
+  bool get hasFAB => true;
+
   Widget createAppBarSliver(ListState<T> state) => MatList2AppBar<T, C>(
       state: state,
       title: title,
@@ -28,6 +32,21 @@ abstract class MatCubitableList2<T, C extends BaseListCubit<T>>
   Widget createListSliver(ListState<T> state) {
     return MatCubitableList2Items<T, C>(state: state, renderItem: renderItem);
   }
+
+  Widget? createFAB(AppWithMapCallback callback) {
+    if (!hasFAB) return null;
+    final Map<String, dynamic> params = {'type': 1};
+    return FloatingActionButton(
+      onPressed: () {
+        callback(params);
+      },
+      child: const Icon(Icons.add),
+    );
+  }
+
+  Widget buildFormTypeCreate(
+          BuildContext context, Map<String, dynamic>? params) =>
+      const Placeholder();
 
   @override
   State<StatefulWidget> createState() => _MatCubitableList2State<T, C>();
@@ -58,6 +77,18 @@ class _MatCubitableList2State<T, C extends BaseListCubit<T>>
     super.dispose();
   }
 
+  void _callFormCreate(Map<String, dynamic>? params) {
+    Timer(const Duration(milliseconds: 50), () async {
+      final OspRouteReturnData? retData = await Navigator.of(context).push(
+          MaterialPageRoute(
+              builder: (context) =>
+                  widget.buildFormTypeCreate(context, params)));
+      if (context.mounted && retData != null && retData.doRefresh) {
+        refresh();
+      }
+    });
+  }
+
   Future<void> refresh() async => cubit.refresh();
 
   final GlobalKey<State<BlocBuilder<C, ListState<T>>>> _blocContextKey =
@@ -83,8 +114,8 @@ class _MatCubitableList2State<T, C extends BaseListCubit<T>>
             ),
           ),
           bottomNavigationBar: widget.params?.menuBottom,
-          floatingActionButton: widget.params
-              ?.floatingActionButton, //tutaj wlasna implementacja zamiast przekazywac z konfiguracji
+          floatingActionButton: widget.params?.floatingActionButton ??
+              widget.createFAB(_callFormCreate),
         ),
       ),
     );

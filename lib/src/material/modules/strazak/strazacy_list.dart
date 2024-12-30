@@ -10,6 +10,12 @@ class StrazacyList extends MatCubitableList2<Strazak, StrazakListCubit> {
   StrazakListCubit createCubit() => StrazakListCubit(params!.api1service!);
 
   @override
+  Widget buildFormTypeCreate(
+      BuildContext context, Map<String, dynamic>? params) {
+    return StrazakFormController(formType: AppFormType.create, params: params);
+  }
+
+  @override
   List<FilterTab> get filterTabs => const [
         FilterTab(tab: Tab(text: 'Wszyscy')),
         FilterTab(

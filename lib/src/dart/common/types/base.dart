@@ -4,7 +4,7 @@ class TBase {
   final Map<String, dynamic>? _d;
   const TBase(this._d);
 
-  dynamic get id => _d?['id'] ?? 0;
+  dynamic get id => _d?['id'];
   set id(dynamic id) => _d?['id'] = id;
 
   Map<String, dynamic>? get d => _d;

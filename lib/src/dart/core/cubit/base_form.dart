@@ -102,7 +102,7 @@ abstract class BaseFormCubit<T extends TBase> extends Cubit<AppFormState<T>> {
     late Future<T> pendingTask;
     try {
       if (formParams.formType == AppFormType.update) {
-        final id = state.initial!.id ?? formParams.id;
+        final id = formParams.id ?? state.initial!.id;
         pendingTask = repo.update(state.buffer!, params: {'id': id});
       } else {
         pendingTask = repo.create(state.buffer!);

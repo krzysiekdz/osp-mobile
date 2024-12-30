@@ -11,7 +11,8 @@ String? validateEmail(String? email) {
 }
 
 AppTextFormValidator notEmpty([String msg = 'Pole nie może być puste']) {
-  return (String? v) {
+  return (String? s) {
+    final v = s?.trim();
     if (v == null || v.isEmpty) {
       return msg;
     }

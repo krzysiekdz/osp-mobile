@@ -5,39 +5,58 @@ class StrazakFormController extends StatelessWidget {
   final Strazak? item;
   final bool doRepoAction;
   final AppFormType formType;
+  final Map<String, dynamic>? params;
 
   const StrazakFormController(
       {super.key,
       this.id,
       this.item,
+      this.params,
       this.doRepoAction = true,
       this.formType = AppFormType.update});
 
   @override
   Widget build(BuildContext context) {
-    final params = OspRouteParams<Strazak>(
-        api1service: context.watch<Api1Service>(), params: {'id': id});
-    return StrazakForm(params: params);
+    final routeParams = OspRouteParams<Strazak>(
+        api1service: context.watch<Api1Service>(),
+        params: params ?? {},
+        formParams: AppFormParams(
+            doRepoAction: doRepoAction,
+            id: id,
+            item: item,
+            formType: formType));
+    return StrazakForm(routeParams: routeParams);
   }
 }
 
 class StrazakForm extends StatefulWidget {
-  const StrazakForm({super.key, this.params});
+  const StrazakForm({super.key, required this.routeParams});
 
-  final OspRouteParams? params;
+  final OspRouteParams<Strazak> routeParams;
 
-  dynamic get id => params?.params?['id'] ?? 'no-id-passed';
+  StrazakFormCubit createCubit() {
+    var fp = routeParams.formParams;
+    if (fp?.formType == AppFormType.create && fp?.item == null) {
+      final item = createDefaultItem(routeParams.params ?? {});
+      fp = fp!.copyWith(item: item);
+    }
+    return StrazakFormCubit(routeParams.api1service!,
+        formParams: fp!, params: routeParams.params);
+  }
 
-  StrazakFormCubit createCubit() =>
-      StrazakFormCubit(params!.api1service!, id: id);
+  Strazak createDefaultItem(Map<String, dynamic> params) {
+    final type = params['type'] ?? '';
+    final item = Strazak({});
+    item.imie = 'Jan ${type}';
+    item.nazwisko = 'Kowalski';
+    return item;
+  }
 
   @override
   State<StrazakForm> createState() => _StrazakFormState();
 }
 
 class _StrazakFormState extends State<StrazakForm> {
-  //type = create | edit - w zaleznosci, czy przekazano ID
-
   @override
   void initState() {
     super.initState();
@@ -155,6 +174,18 @@ class _StrazakFormContentState extends State<StrazakFormContent> {
         context: context, builder: (context) => const AppFormBackDialog());
   }
 
+  bool get isEmptyTitle => c.nazwisko.isEmpty && c.imie.isEmpty;
+
+  String get emptyTitle => 'Nowy strażak';
+
+  @override
+  void initState() {
+    super.initState();
+    Timer.run(() {
+      formKey.currentState?.validate();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return PopScope(
@@ -175,7 +206,8 @@ class _StrazakFormContentState extends State<StrazakFormContent> {
       },
       child: Scaffold(
         appBar: AppBar(
-          title: Text("${c.nazwisko} ${c.imie}"),
+          title:
+              isEmptyTitle ? Text(emptyTitle) : Text("${c.nazwisko} ${c.imie}"),
         ),
         body: Column(
           children: [
@@ -183,7 +215,7 @@ class _StrazakFormContentState extends State<StrazakFormContent> {
               fit: FlexFit.tight,
               child: Form(
                 key: formKey,
-                autovalidateMode: AutovalidateMode.onUserInteraction,
+                // autovalidateMode: AutovalidateMode.disabled,
                 child: SingleChildScrollView(
                   padding: const EdgeInsets.all(gap),
                   child: Column(
