@@ -29,3 +29,13 @@ animated list
 https://morthor.medium.com/flutter-animatedlist-sizetransition-dismissible-dce49c11200d
 
 https://mrale.ph/dartvm/
+
+
+native interop
+https://io.google/2023/program/2f02692d-9a41-49c0-8786-1a22b7155628/
+
+auto update app
+https://medium.com/@aunghtetwho/automatically-update-your-flutter-app-without-user-permission-a-step-by-step-guide-10b821019e31
+
+flutter 3.27
+https://medium.com/flutter/whats-new-in-flutter-3-27-28341129570c

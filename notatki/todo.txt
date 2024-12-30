@@ -1,9 +1,15 @@
-base form cubit - dodanie app form params
+form add - 
+    przekazanie defult item (w przypadku add); 
+    przypadek, że klikniecie add moze miec kilka wariantow - wtedy istotne jest przekazanie params do cubit
+        oraz moze byc rozny obiekt default
+    sprawdzic, pobranie z api obiektu defaultowego i czy zrobi sie merge
+    pobranie obiektu defaultowego w zaleznosci od opcji (params, np add ma warianty: typ strazaka)
 
 formularz dodawania
-więcej pól + podział na zakladki
-dodanie zdjecia do edycji
-potem zrobic analogicznie dla sprzet - czyli wszystko w generyczne klasy
+troche więcej pól 
+potem zrobic analogicznie dla sprzet - czyli wszystko w generyczne klasy (lista, preview, form)
+tutaj dopiero podział na zakladki, jak juz bedzie porzadek z klasami generycznymi
+dodanie zdjecia w strazaku-edycji
 
 ------------------------
 opcje formularza: 
@@ -12,7 +18,7 @@ przekazano id - odwolujemy sie do repo po tym id (jesli id=0 to wtedy prawdopodo
 przekazano item oraz id - postepujemy tak, jak przekazano id po czym robimy merge na item oraz obiekcie z repo 
 przekazano tylko item - operujemy na tym obiekcie, tak jakbysmy otryzmali go z repo
 
-jesli nie robimy operacji na repo, czy powinnismy zwrocic doRefresh?
+doRefresh - jesli nie robimy operacji na repo, to wtedy nie trzeba robic refresh na liscie
 
 1. update: 
 przekazano id - 
