@@ -47,8 +47,8 @@ class StrazakForm extends StatefulWidget {
   Strazak createDefaultItem(Map<String, dynamic> params) {
     final type = params['type'] ?? '';
     final item = Strazak({});
-    item.imie = 'Jan ${type}';
-    item.nazwisko = 'Kowalski';
+    item.firstName = 'Jan ${type}';
+    item.lastName = 'Kowalski';
     return item;
   }
 
@@ -174,7 +174,7 @@ class _StrazakFormContentState extends State<StrazakFormContent> {
         context: context, builder: (context) => const AppFormBackDialog());
   }
 
-  bool get isEmptyTitle => c.nazwisko.isEmpty && c.imie.isEmpty;
+  bool get isEmptyTitle => c.lastName.isEmpty && c.firstName.isEmpty;
 
   String get emptyTitle => 'Nowy strażak';
 
@@ -206,8 +206,9 @@ class _StrazakFormContentState extends State<StrazakFormContent> {
       },
       child: Scaffold(
         appBar: AppBar(
-          title:
-              isEmptyTitle ? Text(emptyTitle) : Text("${c.nazwisko} ${c.imie}"),
+          title: isEmptyTitle
+              ? Text(emptyTitle)
+              : Text("${c.lastName} ${c.firstName}"),
         ),
         body: Column(
           children: [
@@ -223,15 +224,15 @@ class _StrazakFormContentState extends State<StrazakFormContent> {
                     children: [
                       space(),
                       textForm(
-                          initialValue: c.imie,
+                          initialValue: c.firstName,
                           label: 'Imię',
-                          onFormChange: (f, v) => f..imie = v,
+                          onFormChange: (f, v) => f..firstName = v,
                           validator: notEmpty('Podaj imię')),
                       space(2),
                       textForm(
-                        initialValue: c.nazwisko,
+                        initialValue: c.lastName,
                         label: 'Nazwisko',
-                        onFormChange: (f, v) => f..nazwisko = v,
+                        onFormChange: (f, v) => f..lastName = v,
                         validator: notEmpty('Podaj nazwisko'),
                       ),
                       space(),

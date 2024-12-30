@@ -68,7 +68,7 @@ class StrazakPreviewState extends State<StrazakPreview>
       },
       child: Scaffold(
         appBar: AppBar(
-          title: Text('${item.nazwisko} ${item.imie}'),
+          title: Text('${item.lastName} ${item.firstName}'),
           actions: [
             IconButton(onPressed: goToEdit, icon: const Icon(Icons.edit))
           ],
@@ -174,11 +174,12 @@ class _StrazacyPreviewTab1State extends State<StrazacyPreviewTab1>
           CardCaptionValue(children: [
             TCaptionValue(
                 left: 'Stopień',
-                right: TDict.find(appState.strazakStopien, item.stopien, "-")
-                    .text),
+                right: DictPair.find(appState.strazakStopien, item.stopien, "-")
+                    .value),
             TCaptionValue(
                 left: 'Rodzaj',
-                right: TDict.find(Strazak.rodzaje(), item.rodzaj, "-").text),
+                right:
+                    DictPair.find(Strazak.rodzaje(), item.rodzaj, "-").value),
             TCaptionValue(
               left: const SizedBox(),
               right: item.inActions
@@ -212,7 +213,7 @@ class _StrazacyPreviewTab1State extends State<StrazacyPreviewTab1>
             TCaptionValue(
                 left: 'Zarząd OSP',
                 right: item.czyZarzad
-                    ? Text(TDict.find(appState.zarzad, item.zarzad).text,
+                    ? Text(DictPair.find(appState.zarzad, item.zarzad).value,
                         style: labelMedium(context)?.copyWith(
                             fontWeight: FontWeight.bold,
                             color: primaryColor(context)))
@@ -220,7 +221,7 @@ class _StrazacyPreviewTab1State extends State<StrazacyPreviewTab1>
             TCaptionValue(
                 left: 'Komisja rewizyjna',
                 right: item.czyKomisja
-                    ? Text(TDict.find(appState.komisja, item.komisja).text,
+                    ? Text(DictPair.find(appState.komisja, item.komisja).value,
                         style: labelMedium(context)?.copyWith(
                             fontWeight: FontWeight.bold,
                             color: primaryColor(context)))
@@ -264,14 +265,14 @@ class _StrazacyPreviewTab2State extends State<StrazacyPreviewTab2>
           CardCaptionValue(children: [
             TCaptionValue(
                 left: 'Nazwisko i imię',
-                right: "${item.nazwisko} ${item.imie} ${item.drugieImie}"),
+                right: "${item.lastName} ${item.firstName} ${item.middleName}"),
             TCaptionValue(left: "PESEL", right: item.pesel),
             TCaptionValue(left: "Data urodzenia", right: item.dataUr),
             TCaptionValue(left: "Miejsce urodzenia", right: item.miejsceUr),
             TCaptionValue(
                 left: "Wykształcenie",
-                right: TDict.find(appState.wyksztalcenie, item.wyksztalcenie)
-                    .text),
+                right: DictPair.find(appState.wyksztalcenie, item.wyksztalcenie)
+                    .value),
             TCaptionValue(left: "Zawód", right: item.zawod),
             TCaptionValue(
                 left: Column(
@@ -340,19 +341,19 @@ class _StrazacyPreviewTab3State extends State<StrazacyPreviewTab3>
                     //   height: 6,
                     // ),
                     Text(
-                      "${item.kodPocztowy} ${item.poczta}",
+                      "${item.zipCode} ${item.postOffice}",
                       style: labelMedium(context)
                           ?.copyWith(fontWeight: FontWeight.bold),
                     ),
                     Text(
-                      "${item.miejscowosc != item.poczta ? item.miejscowosc : ''} ${item.ulica} ${item.nrBudynku}",
+                      "${item.city != item.postOffice ? item.city : ''} ${item.street} ${item.buildingNo}",
                       style: labelMedium(context)
                           ?.copyWith(fontWeight: FontWeight.bold),
                     )
                   ],
                 )),
             TCaptionValue(left: "E-mail", right: item.email),
-            TCaptionValue(left: "Nr telefonu", right: item.nrTel),
+            TCaptionValue(left: "Nr telefonu", right: item.phoneNo),
           ]),
         ],
       ),
@@ -388,19 +389,19 @@ class _StrazacyPreviewTab4State extends State<StrazacyPreviewTab4>
       child: Column(
         children: [
           CardCaptionValue(children: [
-            TCaptionValue(left: "Wzrost", right: sizeOrEmpty(item.wzrost)),
+            TCaptionValue(left: "Wzrost", right: sizeOrEmpty(item.height)),
             TCaptionValue(
-                left: "Nr buta", right: item.nrButa > 0 ? item.nrButa : '-'),
-            TCaptionValue(left: "Rozmiar dłoni", right: item.rozmiarRloni),
+                left: "Nr buta", right: item.shoeNo > 0 ? item.shoeNo : '-'),
+            TCaptionValue(left: "Rozmiar dłoni", right: item.handSize),
             TCaptionValue(
                 left: "Obwód w klatce piersiowej",
-                right: sizeOrEmpty(item.obWKlatcePiers)),
+                right: sizeOrEmpty(item.chestCircum)),
             TCaptionValue(
-                left: "Obwód w pasie", right: sizeOrEmpty(item.obWPasie)),
+                left: "Obwód w pasie", right: sizeOrEmpty(item.waistCircum)),
             TCaptionValue(
-                left: "Obwód głowy", right: sizeOrEmpty(item.obwodGlowy)),
+                left: "Obwód głowy", right: sizeOrEmpty(item.headCircum)),
             TCaptionValue(
-                left: "Obwód szyi", right: sizeOrEmpty(item.obwodSzyi)),
+                left: "Obwód szyi", right: sizeOrEmpty(item.neckCircum)),
           ]),
         ],
       ),

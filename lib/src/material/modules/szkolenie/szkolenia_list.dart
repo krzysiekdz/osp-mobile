@@ -16,7 +16,7 @@ class _SzkoleniaList extends StdList<Szkolenie> {
     return Column(
       children: [
         Text('${item.numer}'),
-        Text('${item.strazak?.imie} ${item.strazak?.nazwisko}')
+        Text('${item.strazak?.firstName} ${item.strazak?.lastName}')
       ],
     );
   }

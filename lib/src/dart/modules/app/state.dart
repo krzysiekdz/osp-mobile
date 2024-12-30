@@ -22,11 +22,11 @@ class AppSession extends AppState {
   final User user;
   final License license;
   final List<OspRouteName> menuBottomConfig;
-  final List<TDict> strazacy;
-  final List<TDict> strazakStopien;
-  final List<TDict> zarzad;
-  final List<TDict> komisja;
-  final List<TDict> wyksztalcenie;
+  final List<DictPair> strazacy;
+  final List<DictPair> strazakStopien;
+  final List<DictPair> zarzad;
+  final List<DictPair> komisja;
+  final List<DictPair> wyksztalcenie;
 
   AppSession(Api1Response res)
       : session = Session(res.data),
@@ -39,19 +39,19 @@ class AppSession extends AppState {
         wyksztalcenie = [],
         license = License(res.temp['licenses']?[0]) {
     for (var s in res.temp['strazacy']) {
-      strazacy.add(TDict.json(s));
+      strazacy.add(DictPair.json(s));
     }
     for (var s in res.dict['strazak_stopien']) {
-      strazakStopien.add(TDict.json2(s));
+      strazakStopien.add(DictPair.json2(s));
     }
     for (var v in res.dict['zarzad']) {
-      zarzad.add(TDict.json2(v));
+      zarzad.add(DictPair.json2(v));
     }
     for (var v in res.dict['komisja']) {
-      komisja.add(TDict.json2(v));
+      komisja.add(DictPair.json2(v));
     }
     for (var v in res.dict['wyksztalcenie']) {
-      wyksztalcenie.add(TDict.json2(v));
+      wyksztalcenie.add(DictPair.json2(v));
     }
   }
 
@@ -72,8 +72,8 @@ class AppSession extends AppState {
     User? user,
     License? license,
     List<OspRouteName>? menuBottomConfig,
-    List<TDict>? strazacy,
-    List<TDict>? strazakStopien,
+    List<DictPair>? strazacy,
+    List<DictPair>? strazakStopien,
   }) {
     return AppSession._(
       session: session ?? this.session,

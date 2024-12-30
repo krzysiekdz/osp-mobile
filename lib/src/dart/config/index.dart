@@ -26,3 +26,4 @@ const appConfigProd =
 const appConfigDev =
     // OspAppConfig(title: appTitle, url: 'http://localhost:8000');
     OspAppConfig(title: appTitle, url: 'http://192.168.68.110:8000');
+    // OspAppConfig(title: appTitle, url: 'http://192.168.1.104:8000');

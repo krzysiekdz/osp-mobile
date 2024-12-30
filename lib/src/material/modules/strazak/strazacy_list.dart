@@ -82,7 +82,7 @@ class StrazakListItem extends StatelessWidget {
               ? const AssetImage('assets/images/fireman.jpg') as ImageProvider
               : NetworkImage(item.imgUrl)),
       title: Text(
-        '${p.index + 1}. ${item.nazwisko} ${item.imie}',
+        '${p.index + 1}. ${item.lastName} ${item.firstName}',
         style: labelMedium(context)?.copyWith(fontWeight: FontWeight.bold),
       ),
       subtitle: Column(
@@ -90,12 +90,13 @@ class StrazakListItem extends StatelessWidget {
         children: [
           Row(
             children: [
-              Text(TDict.find(p.appState.strazakStopien, item.stopien).text,
+              Text(DictPair.find(p.appState.strazakStopien, item.stopien).value,
                   style: labelSmall(context)),
               if (item.stopien.isNotEmpty)
                 Text(' | ', style: labelSmall(context)),
               Expanded(
-                  child: Text(TDict.find(Strazak.rodzaje(), item.rodzaj).text,
+                  child: Text(
+                      DictPair.find(Strazak.rodzaje(), item.rodzaj).value,
                       style: labelSmall(context))),
             ],
           ),
@@ -114,11 +115,11 @@ class StrazakListItem extends StatelessWidget {
           //   ),
           // ),
           if (item.czyZarzad)
-            Text(TDict.find(p.appState.zarzad, item.zarzad).text,
+            Text(DictPair.find(p.appState.zarzad, item.zarzad).value,
                 style: labelSmall(context)?.copyWith(
                     color: primaryColor(context), fontWeight: FontWeight.bold)),
           if (item.czyKomisja)
-            Text(TDict.find(p.appState.komisja, item.komisja).text,
+            Text(DictPair.find(p.appState.komisja, item.komisja).value,
                 style: labelSmall(context)?.copyWith(
                     color: primaryColor(context), fontWeight: FontWeight.bold)),
         ],

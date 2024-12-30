@@ -1,6 +1,6 @@
 part of 'index.dart';
 
-class Strazak extends TBase with TPerson, TAdres, TContact, TWymiary {
+class Strazak extends TBase with TPerson, TAddress, TContact, TSizes {
   const Strazak(super._d);
 
   String get imgUrl {
@@ -47,12 +47,12 @@ class Strazak extends TBase with TPerson, TAdres, TContact, TWymiary {
 
   String get zawod => d?['zawod'] ?? '';
 
-  static List<TDict> rodzaje() {
+  static List<DictPair> rodzaje() {
     return const [
-      TDict(text: 'Zwyczajny', value: 1),
-      TDict(text: 'Wspierający', value: 2),
-      TDict(text: 'Honorowy', value: 3),
-      TDict(text: 'MDP', value: 4),
+      DictPair(value: 'Zwyczajny', key: 1),
+      DictPair(value: 'Wspierający', key: 2),
+      DictPair(value: 'Honorowy', key: 3),
+      DictPair(value: 'MDP', key: 4),
     ];
   }
 }
