@@ -29,7 +29,7 @@ part 'widgets/list2/list2_appbar.dart';
 part 'widgets/list2/list2_items.dart';
 part 'widgets/list2/list2_filter_tabs.dart';
 part 'widgets/search.dart';
-part 'widgets/strazak_img.dart';
+part 'widgets/fireman_img.dart';
 part 'widgets/column_caption_value.dart';
 part 'widgets/text_form_field.dart';
 

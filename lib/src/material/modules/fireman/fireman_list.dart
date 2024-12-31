@@ -1,18 +1,18 @@
 part of 'index.dart';
 
-class StrazacyList extends MatCubitableList2<Strazak, StrazakListCubit> {
-  const StrazacyList({super.key, super.params});
+class FiremanList extends MatCubitableList2<Fireman, FiremanListCubit> {
+  const FiremanList({super.key, super.params});
 
   @override
   String get title => 'Ewidencja strażaków';
 
   @override
-  StrazakListCubit createCubit() => StrazakListCubit(params!.api1service!);
+  FiremanListCubit createCubit() => FiremanListCubit(params!.api1service!);
 
   @override
   Widget buildFormTypeCreate(
       BuildContext context, Map<String, dynamic>? params) {
-    return StrazakFormController(formType: AppFormType.create, params: params);
+    return FiremanFormController(formType: AppFormType.create, params: params);
   }
 
   @override
@@ -34,7 +34,7 @@ class StrazacyList extends MatCubitableList2<Strazak, StrazakListCubit> {
 
   @override
   Widget renderItem(item, p) {
-    return StrazakListItem(
+    return FiremanListItem(
       item: item,
       p: p,
       key: ValueKey(item.id),
@@ -43,10 +43,10 @@ class StrazacyList extends MatCubitableList2<Strazak, StrazakListCubit> {
 }
 
 //zrobic generic list item 2 i tutaj robic extends; tak samo dla preview
-class StrazakListItem extends StatelessWidget {
-  const StrazakListItem({super.key, required this.item, required this.p});
+class FiremanListItem extends StatelessWidget {
+  const FiremanListItem({super.key, required this.item, required this.p});
 
-  final Strazak item;
+  final Fireman item;
   final ListItemParams p;
 
   @override
@@ -70,8 +70,8 @@ class StrazakListItem extends StatelessWidget {
     // final emptyImg =
     //     Theme.of(context).brightness == Brightness.dark ? imgDark : imgLight;
 
-    return AppListTile<Strazak, StrazakListCubit>(
-      previewBuilder: (context) => StrazakPreview(
+    return AppListTile<Fireman, FiremanListCubit>(
+      previewBuilder: (context) => FiremanPreview(
         item: item,
         appState: p.appState,
       ),
@@ -90,36 +90,20 @@ class StrazakListItem extends StatelessWidget {
         children: [
           Row(
             children: [
-              Text(DictPair.find(p.appState.strazakStopien, item.stopien).value,
+              Text(DictPair.find(p.appState.firemanRank, item.rank).value,
                   style: labelSmall(context)),
-              if (item.stopien.isNotEmpty)
-                Text(' | ', style: labelSmall(context)),
+              if (item.rank.isNotEmpty) Text(' | ', style: labelSmall(context)),
               Expanded(
-                  child: Text(
-                      DictPair.find(Strazak.rodzaje(), item.rodzaj).value,
+                  child: Text(DictPair.find(Fireman.types(), item.type).value,
                       style: labelSmall(context))),
             ],
           ),
-          // RichText(
-          //   text: TextSpan(
-          //     style: labelSmall(context),
-          //     children: [
-          //       TextSpan(
-          //           text: TDict.find(p.appState.strazakStopien, item.stopien)
-          //               .text),
-          //       if (item.stopien.isNotEmpty) const TextSpan(text: ' | '),
-          //       TextSpan(
-          //         text: TDict.find(Strazak.rodzaje(), item.rodzaj).text,
-          //       ),
-          //     ],
-          //   ),
-          // ),
-          if (item.czyZarzad)
-            Text(DictPair.find(p.appState.zarzad, item.zarzad).value,
+          if (item.isBoardMember)
+            Text(DictPair.find(p.appState.boardOf, item.boardRole).value,
                 style: labelSmall(context)?.copyWith(
                     color: primaryColor(context), fontWeight: FontWeight.bold)),
-          if (item.czyKomisja)
-            Text(DictPair.find(p.appState.komisja, item.komisja).value,
+          if (item.isAuditCommittee)
+            Text(DictPair.find(p.appState.committee, item.committee).value,
                 style: labelSmall(context)?.copyWith(
                     color: primaryColor(context), fontWeight: FontWeight.bold)),
         ],

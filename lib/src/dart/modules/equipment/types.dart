@@ -24,20 +24,36 @@ class Equipment extends Product with TImageUrl {
   String get expirationDate => d?['data_przydatnosci'] ?? '';
   set expirationDate(String v) => d?['data_przydatnosci'] = v;
 
-  static List<DictPair> types() {
-    return const [
-      DictPair(value: 'Środek trwały', key: 1),
-      DictPair(value: 'Środek nietrwały', key: 2),
-      DictPair(value: 'Środek materiałowy', key: 3),
-      DictPair(value: 'Wyposażenie osobiste', key: 4),
-    ];
+  // static List<DictPair> types() {
+  //   return const [
+  //     DictPair(value: 'Środek trwały', key: 1),
+  //     DictPair(value: 'Środek nietrwały', key: 2),
+  //     DictPair(value: 'Środek materiałowy', key: 3),
+  //     DictPair(value: 'Wyposażenie osobiste', key: 4),
+  //   ];
+  // }
+
+  static Map<int, String> types() {
+    return const {
+      1: 'Środek trwały',
+      2: 'Środek nietrwały',
+      3: 'Środek materiałowy',
+      4: 'Wyposażenie osobiste'
+    };
   }
 
-  static List<DictPair> owners() {
-    return const [
-      DictPair(value: 'OSP', key: 1),
-      DictPair(value: 'Gmina', key: 2),
-    ];
+  // static List<DictPair> owners() {
+  //   return const [
+  //     DictPair(value: 'OSP', key: 1),
+  //     DictPair(value: 'Gmina', key: 2),
+  //   ];
+  // }
+
+  static Map<int, String> owners() {
+    return const {
+      1: 'OSP',
+      2: 'Gmina',
+    };
   }
 }
 
@@ -58,8 +74,9 @@ class EquipmentListCubit extends Api1ListCubit<Equipment> {
   Repository<Equipment> createRepo() => EquipmentRepo(apiService);
 }
 
-class StrazakFormCubit extends Api1FormCubit<Equipment> {
-  StrazakFormCubit(super.apiService, {required super.formParams, super.params});
+class EquipmentFormCubit extends Api1FormCubit<Equipment> {
+  EquipmentFormCubit(super.apiService,
+      {required super.formParams, super.params});
 
   @override
   Repository<Equipment> createRepo() => EquipmentRepo(apiService);

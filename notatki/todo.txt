@@ -3,7 +3,7 @@ form add -
     przypadek, że klikniecie add moze miec kilka wariantow - wtedy istotne jest przekazanie params do cubit
         oraz moze byc rozny obiekt default
     sprawdzic, pobranie z api obiektu defaultowego i czy zrobi sie merge
-    pobranie obiektu defaultowego w zaleznosci od opcji (params, np add ma warianty: typ strazaka)
+        pobranie obiektu defaultowego w zaleznosci od opcji (params, np add ma warianty: typ strazaka)
 
 formularz dodawania
 troche więcej pól 
@@ -12,6 +12,8 @@ tutaj dopiero podział na zakladki, jak juz bedzie porzadek z klasami generyczny
 dodanie zdjecia w strazaku-edycji
 
 ------------------------
+jednostka: department unit
+
 opcje formularza: 
 
 przekazano id - odwolujemy sie do repo po tym id (jesli id=0 to wtedy prawdopodobnie chcemy pobrac domyslna konfiguracje dla obiektu, zapewne dla form create)

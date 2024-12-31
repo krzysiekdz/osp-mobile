@@ -1,7 +1,7 @@
 part of '../index.dart';
 
-class StrazakImg extends StatelessWidget {
-  const StrazakImg(
+class FiremanImg extends StatelessWidget {
+  const FiremanImg(
       {super.key, required this.imgUrl, this.width = 64, this.height = 64});
 
   final String imgUrl;

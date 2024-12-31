@@ -1,13 +1,13 @@
 part of 'index.dart';
 
-class StrazakFormController extends StatelessWidget {
+class FiremanFormController extends StatelessWidget {
   final dynamic id;
-  final Strazak? item;
+  final Fireman? item;
   final bool doRepoAction;
   final AppFormType formType;
   final Map<String, dynamic>? params;
 
-  const StrazakFormController(
+  const FiremanFormController(
       {super.key,
       this.id,
       this.item,
@@ -17,7 +17,7 @@ class StrazakFormController extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final routeParams = OspRouteParams<Strazak>(
+    final routeParams = OspRouteParams<Fireman>(
         api1service: context.watch<Api1Service>(),
         params: params ?? {},
         formParams: AppFormParams(
@@ -25,38 +25,38 @@ class StrazakFormController extends StatelessWidget {
             id: id,
             item: item,
             formType: formType));
-    return StrazakForm(routeParams: routeParams);
+    return FiremanForm(routeParams: routeParams);
   }
 }
 
-class StrazakForm extends StatefulWidget {
-  const StrazakForm({super.key, required this.routeParams});
+class FiremanForm extends StatefulWidget {
+  const FiremanForm({super.key, required this.routeParams});
 
-  final OspRouteParams<Strazak> routeParams;
+  final OspRouteParams<Fireman> routeParams;
 
-  StrazakFormCubit createCubit() {
+  FiremanFormCubit createCubit() {
     var fp = routeParams.formParams;
     if (fp?.formType == AppFormType.create && fp?.item == null) {
       final item = createDefaultItem(routeParams.params ?? {});
       fp = fp!.copyWith(item: item);
     }
-    return StrazakFormCubit(routeParams.api1service!,
+    return FiremanFormCubit(routeParams.api1service!,
         formParams: fp!, params: routeParams.params);
   }
 
-  Strazak createDefaultItem(Map<String, dynamic> params) {
+  Fireman createDefaultItem(Map<String, dynamic> params) {
     final type = params['type'] ?? '';
-    final item = Strazak({});
+    final item = Fireman({});
     item.firstName = 'Jan ${type}';
     item.lastName = 'Kowalski';
     return item;
   }
 
   @override
-  State<StrazakForm> createState() => _StrazakFormState();
+  State<FiremanForm> createState() => _FiremanFormState();
 }
 
-class _StrazakFormState extends State<StrazakForm> {
+class _FiremanFormState extends State<FiremanForm> {
   @override
   void initState() {
     super.initState();
@@ -64,28 +64,27 @@ class _StrazakFormState extends State<StrazakForm> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider<StrazakFormCubit>(
+    return BlocProvider<FiremanFormCubit>(
       create: (context) => widget.createCubit()..init(),
-      child: BlocBuilder<StrazakFormCubit, AppFormState<Strazak>>(
+      child: BlocBuilder<FiremanFormCubit, AppFormState<Fireman>>(
         builder: (context, state) {
           if (state.phase == AppFormPhase.fetch) {
-            return StrazakFormFetching(state: state);
+            return FiremanFormFetching(state: state);
           } else if (state.phase == AppFormPhase.fetchError) {
-            return StrazakFormError(state: state);
+            return FiremanFormError(state: state);
           } else {
-            return StrazakFormContent(state: state);
+            return FiremanFormContent(state: state);
           }
         },
       ),
     );
-    // return StrazakFormContent(item: Strazak({}));
   }
 }
 
-class StrazakFormFetching extends StatelessWidget {
-  const StrazakFormFetching({super.key, required this.state});
+class FiremanFormFetching extends StatelessWidget {
+  const FiremanFormFetching({super.key, required this.state});
 
-  final AppFormState<Strazak> state;
+  final AppFormState<Fireman> state;
 
   @override
   Widget build(BuildContext context) {
@@ -99,10 +98,10 @@ class StrazakFormFetching extends StatelessWidget {
   }
 }
 
-class StrazakFormError extends StatelessWidget {
-  const StrazakFormError({super.key, required this.state});
+class FiremanFormError extends StatelessWidget {
+  const FiremanFormError({super.key, required this.state});
 
-  final AppFormState<Strazak> state;
+  final AppFormState<Fireman> state;
 
   @override
   Widget build(BuildContext context) {
@@ -125,7 +124,7 @@ class StrazakFormError extends StatelessWidget {
                 height: 64,
                 child: ElevatedButton(
                     onPressed: () {
-                      context.read<StrazakFormCubit>().fetch();
+                      context.read<FiremanFormCubit>().fetch();
                     },
                     child: const Text('Ponów')),
               )
@@ -135,32 +134,32 @@ class StrazakFormError extends StatelessWidget {
   }
 }
 
-class StrazakFormContent extends StatefulWidget {
-  const StrazakFormContent({super.key, required this.state});
+class FiremanFormContent extends StatefulWidget {
+  const FiremanFormContent({super.key, required this.state});
 
-  final AppFormState<Strazak> state;
+  final AppFormState<Fireman> state;
 
   @override
-  State<StrazakFormContent> createState() => _StrazakFormContentState();
+  State<FiremanFormContent> createState() => _FiremanFormContentState();
 }
 
-class _StrazakFormContentState extends State<StrazakFormContent> {
-  Strazak get b => widget.state.buffer!;
-  Strazak get c => widget.state.current!;
-  Strazak get i => widget.state.initial!;
+class _FiremanFormContentState extends State<FiremanFormContent> {
+  Fireman get b => widget.state.buffer!;
+  Fireman get c => widget.state.current!;
+  Fireman get i => widget.state.initial!;
 
-  AppFormState<Strazak> get state => widget.state;
+  AppFormState<Fireman> get state => widget.state;
 
-  StrazakFormCubit get cubit => context.read<StrazakFormCubit>();
+  FiremanFormCubit get cubit => context.read<FiremanFormCubit>();
 
   final formKey = GlobalKey<FormState>();
 
-  AppTextFormField<Strazak, StrazakFormCubit> textForm(
+  AppTextFormField<Fireman, FiremanFormCubit> textForm(
           {String initialValue = '',
-          required FormChangeCallback<Strazak> onFormChange,
+          required FormChangeCallback<Fireman> onFormChange,
           AppTextFormValidator? validator,
           String label = ''}) =>
-      AppTextFormField<Strazak, StrazakFormCubit>(
+      AppTextFormField<Fireman, FiremanFormCubit>(
         initialValue: initialValue,
         label: label,
         validator: validator,

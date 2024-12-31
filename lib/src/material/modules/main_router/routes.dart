@@ -10,20 +10,8 @@ List<OspRoute> appRoutes = [
   OspRoute(
       menuItem: MenuItem(label: 'Strażacy', icon: Icons.group),
       name: OspRouteName.strazacy,
-      factory: (OspRouteParams? params) => StrazacyList(
+      factory: (OspRouteParams? params) => FiremanList(
             params: params,
-          )),
-  OspRoute(
-      menuItem: MenuItem(label: 'Badania', icon: Icons.add_business),
-      name: OspRouteName.badania,
-      factory: (OspRouteParams? config) => BadaniaList(
-            config: config,
-          )),
-  OspRoute(
-      menuItem: MenuItem(label: 'Szkolenia', icon: Icons.abc_outlined),
-      name: OspRouteName.szkolenia,
-      factory: (OspRouteParams? config) => SzkoleniaList(
-            config: config,
           )),
 ];
 

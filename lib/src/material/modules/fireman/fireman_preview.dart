@@ -1,19 +1,19 @@
 part of 'index.dart';
 
-class StrazakPreview extends StatefulWidget {
-  const StrazakPreview({super.key, required this.appState, required this.item});
+class FiremanPreview extends StatefulWidget {
+  const FiremanPreview({super.key, required this.appState, required this.item});
 
   final AppSession appState;
-  final Strazak item;
+  final Fireman item;
 
   @override
-  State<StatefulWidget> createState() => StrazakPreviewState();
+  State<StatefulWidget> createState() => FiremanPreviewState();
 }
 
-class StrazakPreviewState extends State<StrazakPreview>
+class FiremanPreviewState extends State<FiremanPreview>
     with SingleTickerProviderStateMixin {
   AppSession get appState => widget.appState;
-  late Strazak item;
+  late Fireman item;
 
   late final TabController tabController;
 
@@ -33,7 +33,7 @@ class StrazakPreviewState extends State<StrazakPreview>
     item = widget.item;
   }
 
-  void updatePreview(Strazak item) {
+  void updatePreview(Fireman item) {
     setState(() {
       this.item = item;
     });
@@ -49,8 +49,8 @@ class StrazakPreviewState extends State<StrazakPreview>
     Timer(const Duration(milliseconds: 200), () async {
       final OspRouteReturnData? ret = await Navigator.of(context).push(
           MaterialPageRoute(
-              builder: (context) => StrazakFormController(id: item.id)));
-      if (ret != null && (ret.data is Strazak)) {
+              builder: (context) => FiremanFormController(id: item.id)));
+      if (ret != null && (ret.data is Fireman)) {
         returnData = ret;
         updatePreview(ret.data);
       }
@@ -86,7 +86,7 @@ class StrazakPreviewState extends State<StrazakPreview>
                     color: Colors.white,
                     child: Padding(
                       padding: const EdgeInsets.all(4.0),
-                      child: StrazakImg(
+                      child: FiremanImg(
                         imgUrl: item.imgUrl,
                         width: 140,
                         height: 180,
@@ -119,19 +119,19 @@ class StrazakPreviewState extends State<StrazakPreview>
             ),
             Expanded(
               child: TabBarView(controller: tabController, children: [
-                StrazacyPreviewTab1(
+                FiremanPreviewTab1(
                   item: item,
                   appState: appState,
                 ),
-                StrazacyPreviewTab2(
+                FiremanPreviewTab2(
                   item: item,
                   appState: appState,
                 ),
-                StrazacyPreviewTab3(
+                FiremanPreviewTab3(
                   item: item,
                   appState: appState,
                 ),
-                StrazacyPreviewTab4(
+                FiremanPreviewTab4(
                   item: item,
                   appState: appState,
                 ),
@@ -145,21 +145,21 @@ class StrazakPreviewState extends State<StrazakPreview>
 }
 
 //Tab 1
-class StrazacyPreviewTab1 extends StatefulWidget {
-  const StrazacyPreviewTab1(
+class FiremanPreviewTab1 extends StatefulWidget {
+  const FiremanPreviewTab1(
       {super.key, required this.item, required this.appState});
 
-  final Strazak item;
+  final Fireman item;
   final AppSession appState;
 
   @override
-  State<StrazacyPreviewTab1> createState() => _StrazacyPreviewTab1State();
+  State<FiremanPreviewTab1> createState() => _FiremanPreviewTab1State();
 }
 
-class _StrazacyPreviewTab1State extends State<StrazacyPreviewTab1>
+class _FiremanPreviewTab1State extends State<FiremanPreviewTab1>
     with AutomaticKeepAliveClientMixin {
   AppSession get appState => widget.appState;
-  Strazak get item => widget.item;
+  Fireman get item => widget.item;
 
   @override
   bool get wantKeepAlive => true;
@@ -174,12 +174,11 @@ class _StrazacyPreviewTab1State extends State<StrazacyPreviewTab1>
           CardCaptionValue(children: [
             TCaptionValue(
                 left: 'Stopień',
-                right: DictPair.find(appState.strazakStopien, item.stopien, "-")
-                    .value),
+                right:
+                    DictPair.find(appState.firemanRank, item.rank, "-").value),
             TCaptionValue(
                 left: 'Rodzaj',
-                right:
-                    DictPair.find(Strazak.rodzaje(), item.rodzaj, "-").value),
+                right: DictPair.find(Fireman.types(), item.type, "-").value),
             TCaptionValue(
               left: const SizedBox(),
               right: item.inActions
@@ -194,7 +193,7 @@ class _StrazacyPreviewTab1State extends State<StrazacyPreviewTab1>
             ),
             TCaptionValue(
                 left: const SizedBox(),
-                right: item.czyJot
+                right: item.isJOT
                     ? Text('Należy do JOT',
                         style: labelMedium(context)?.copyWith(
                             fontWeight: FontWeight.bold,
@@ -203,7 +202,7 @@ class _StrazacyPreviewTab1State extends State<StrazacyPreviewTab1>
                         style: labelMedium(context)?.copyWith(
                             fontWeight: FontWeight.bold,
                             color: errorColor(context)))),
-            if (item.czyOpiekunMdp)
+            if (item.isMDPSupervisor)
               TCaptionValue(
                   left: const SizedBox(),
                   right: Text('Jest opiekunem MDP',
@@ -212,22 +211,24 @@ class _StrazacyPreviewTab1State extends State<StrazacyPreviewTab1>
                           color: successColor(context)))),
             TCaptionValue(
                 left: 'Zarząd OSP',
-                right: item.czyZarzad
-                    ? Text(DictPair.find(appState.zarzad, item.zarzad).value,
+                right: item.isBoardMember
+                    ? Text(
+                        DictPair.find(appState.boardOf, item.boardRole).value,
                         style: labelMedium(context)?.copyWith(
                             fontWeight: FontWeight.bold,
                             color: primaryColor(context)))
                     : '-'),
             TCaptionValue(
                 left: 'Komisja rewizyjna',
-                right: item.czyKomisja
-                    ? Text(DictPair.find(appState.komisja, item.komisja).value,
+                right: item.isAuditCommittee
+                    ? Text(
+                        DictPair.find(appState.committee, item.committee).value,
                         style: labelMedium(context)?.copyWith(
                             fontWeight: FontWeight.bold,
                             color: primaryColor(context)))
                     : '-'),
-            TCaptionValue(left: 'Nr legitymacji', right: item.nrLegitymacji),
-            TCaptionValue(left: 'Data wstąpienia', right: item.dataWstapienia),
+            TCaptionValue(left: 'Nr legitymacji', right: item.idNo),
+            TCaptionValue(left: 'Data wstąpienia', right: item.joinDate),
           ]),
         ],
       ),
@@ -236,21 +237,21 @@ class _StrazacyPreviewTab1State extends State<StrazacyPreviewTab1>
 }
 
 //Tab 2
-class StrazacyPreviewTab2 extends StatefulWidget {
-  const StrazacyPreviewTab2(
+class FiremanPreviewTab2 extends StatefulWidget {
+  const FiremanPreviewTab2(
       {super.key, required this.item, required this.appState});
 
-  final Strazak item;
+  final Fireman item;
   final AppSession appState;
 
   @override
-  State<StrazacyPreviewTab2> createState() => _StrazacyPreviewTab2State();
+  State<FiremanPreviewTab2> createState() => _FiremanPreviewTab2State();
 }
 
-class _StrazacyPreviewTab2State extends State<StrazacyPreviewTab2>
+class _FiremanPreviewTab2State extends State<FiremanPreviewTab2>
     with AutomaticKeepAliveClientMixin {
   AppSession get appState => widget.appState;
-  Strazak get item => widget.item;
+  Fireman get item => widget.item;
 
   @override
   bool get wantKeepAlive => true;
@@ -266,14 +267,13 @@ class _StrazacyPreviewTab2State extends State<StrazacyPreviewTab2>
             TCaptionValue(
                 left: 'Nazwisko i imię',
                 right: "${item.lastName} ${item.firstName} ${item.middleName}"),
-            TCaptionValue(left: "PESEL", right: item.pesel),
-            TCaptionValue(left: "Data urodzenia", right: item.dataUr),
-            TCaptionValue(left: "Miejsce urodzenia", right: item.miejsceUr),
+            TCaptionValue(left: "PESEL", right: item.peselNo),
+            TCaptionValue(left: "Data urodzenia", right: item.birthDate),
+            TCaptionValue(left: "Miejsce urodzenia", right: item.placeOfBirth),
             TCaptionValue(
                 left: "Wykształcenie",
-                right: DictPair.find(appState.wyksztalcenie, item.wyksztalcenie)
-                    .value),
-            TCaptionValue(left: "Zawód", right: item.zawod),
+                right: DictPair.find(appState.education, item.education).value),
+            TCaptionValue(left: "Zawód", right: item.profession),
             TCaptionValue(
                 left: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -286,13 +286,13 @@ class _StrazacyPreviewTab2State extends State<StrazacyPreviewTab2>
                   height: 4,
                 ),
                 Text(
-                  item.miejscePracy,
+                  item.workplace,
                   style: labelMedium(context)
                       ?.copyWith(fontWeight: FontWeight.bold),
                 )
               ],
             )),
-            TCaptionValue(left: "Imię ojca", right: item.imieOjca),
+            TCaptionValue(left: "Imię ojca", right: item.fatherName),
           ]),
         ],
       ),
@@ -301,21 +301,21 @@ class _StrazacyPreviewTab2State extends State<StrazacyPreviewTab2>
 }
 
 //Tab 3
-class StrazacyPreviewTab3 extends StatefulWidget {
-  const StrazacyPreviewTab3(
+class FiremanPreviewTab3 extends StatefulWidget {
+  const FiremanPreviewTab3(
       {super.key, required this.item, required this.appState});
 
-  final Strazak item;
+  final Fireman item;
   final AppSession appState;
 
   @override
-  State<StrazacyPreviewTab3> createState() => _StrazacyPreviewTab3State();
+  State<FiremanPreviewTab3> createState() => _FiremanPreviewTab3State();
 }
 
-class _StrazacyPreviewTab3State extends State<StrazacyPreviewTab3>
+class _FiremanPreviewTab3State extends State<FiremanPreviewTab3>
     with AutomaticKeepAliveClientMixin {
   AppSession get appState => widget.appState;
-  Strazak get item => widget.item;
+  Fireman get item => widget.item;
 
   @override
   bool get wantKeepAlive => true;
@@ -362,21 +362,21 @@ class _StrazacyPreviewTab3State extends State<StrazacyPreviewTab3>
 }
 
 //Tab 4
-class StrazacyPreviewTab4 extends StatefulWidget {
-  const StrazacyPreviewTab4(
+class FiremanPreviewTab4 extends StatefulWidget {
+  const FiremanPreviewTab4(
       {super.key, required this.item, required this.appState});
 
-  final Strazak item;
+  final Fireman item;
   final AppSession appState;
 
   @override
-  State<StrazacyPreviewTab4> createState() => _StrazacyPreviewTab4State();
+  State<FiremanPreviewTab4> createState() => _FiremanPreviewTab4State();
 }
 
-class _StrazacyPreviewTab4State extends State<StrazacyPreviewTab4>
+class _FiremanPreviewTab4State extends State<FiremanPreviewTab4>
     with AutomaticKeepAliveClientMixin {
   AppSession get appState => widget.appState;
-  Strazak get item => widget.item;
+  Fireman get item => widget.item;
 
   @override
   bool get wantKeepAlive => true;
