@@ -9,7 +9,7 @@ List<OspRoute> appRoutes = [
           )),
   OspRoute(
       menuItem: MenuItem(label: 'Strażacy', icon: Icons.group),
-      name: OspRouteName.strazacy,
+      name: OspRouteName.fireman,
       factory: (OspRouteParams? params) => FiremanList(
             params: params,
           )),
