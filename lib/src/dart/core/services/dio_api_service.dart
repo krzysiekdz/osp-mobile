@@ -5,11 +5,13 @@ abstract class DioApiService<R extends Response> implements ApiService {
   late final String baseUrl;
   final Map<String, dynamic> _params = {};
   final dio.Dio _dio;
+  bool showDebugInfo = false;
 
   DioApiService()
-      : _dio = dio.Dio(
-            dio.BaseOptions(connectTimeout: const Duration(seconds: 10))) {
+      : _dio = dio.Dio(dio.BaseOptions(
+            connectTimeout: const Duration(seconds: aConnTimeout))) {
     baseUrl = createBaseUrl();
+    showDebugInfo = AppConfig.getConfig().showDebugInfo;
   }
 
   String createBaseUrl();
@@ -21,7 +23,7 @@ abstract class DioApiService<R extends Response> implements ApiService {
     try {
       final p = Map<String, dynamic>.from(_params);
       p.addAll(params);
-      if (kShowDebugInfo) log('dio GET: $endpoint , params: $p');
+      if (showDebugInfo) log('dio GET: $endpoint , params: $p');
       final response = await _dio.get(
         '$baseUrl/$endpoint',
         queryParameters: p,
@@ -39,7 +41,7 @@ abstract class DioApiService<R extends Response> implements ApiService {
     try {
       final p = Map<String, dynamic>.from(_params);
       p.addAll(params);
-      if (kShowDebugInfo) log('dio POST: $endpoint , params: $p');
+      if (showDebugInfo) log('dio POST: $endpoint , params: $p');
       final response = await _dio.post(
         '$baseUrl/$endpoint',
         data: p,
@@ -57,7 +59,7 @@ abstract class DioApiService<R extends Response> implements ApiService {
     try {
       final p = Map<String, dynamic>.from(_params);
       p.addAll(params);
-      if (kShowDebugInfo) log('dio PUT: $endpoint , params: $p');
+      if (showDebugInfo) log('dio PUT: $endpoint , params: $p');
       final response = await _dio.put(
         '$baseUrl/$endpoint',
         data: p,
@@ -75,7 +77,7 @@ abstract class DioApiService<R extends Response> implements ApiService {
     try {
       final p = Map<String, dynamic>.from(_params);
       p.addAll(params);
-      if (kShowDebugInfo) log('dio DELETE: $endpoint , params: $p');
+      if (showDebugInfo) log('dio DELETE: $endpoint , params: $p');
       final response = await _dio.delete(
         '$baseUrl/$endpoint',
         data: p,

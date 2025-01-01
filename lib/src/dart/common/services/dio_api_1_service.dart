@@ -8,7 +8,7 @@ abstract interface class Api1Service implements ApiService {}
 class DioApi1Service extends DioApiService<Api1Response>
     implements Api1Service {
   @override
-  String createBaseUrl() => AppConfigService.getConfig().url;
+  String createBaseUrl() => AppConfig.getConfig().url;
 
   @override
   Api1Response mapResponse(dio.Response? response) {

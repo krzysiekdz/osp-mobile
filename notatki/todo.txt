@@ -12,8 +12,6 @@ tutaj dopiero podział na zakladki, jak juz bedzie porzadek z klasami generyczny
 dodanie zdjecia w strazaku-edycji
 
 ------------------------
-jednostka: department unit
-
 opcje formularza: 
 
 przekazano id - odwolujemy sie do repo po tym id (jesli id=0 to wtedy prawdopodobnie chcemy pobrac domyslna konfiguracje dla obiektu, zapewne dla form create)

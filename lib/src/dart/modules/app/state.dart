@@ -21,7 +21,7 @@ class AppSession extends AppState {
   final Session session;
   final User user;
   final License license;
-  final List<OspRouteName> menuBottomConfig;
+  final List<RouteName> menuBottomConfig;
   final List<DictPair> firemen;
   final List<DictPair> firemanRank;
   final List<DictPair> boardOf;
@@ -31,7 +31,7 @@ class AppSession extends AppState {
   AppSession(Api1Response res)
       : session = Session(res.data),
         user = User(res.temp['user']),
-        menuBottomConfig = cMenuBottomConfig,
+        menuBottomConfig = aMenuBottomConfig,
         firemen = [],
         firemanRank = [],
         boardOf = [],
@@ -71,7 +71,7 @@ class AppSession extends AppState {
     Session? session,
     User? user,
     License? license,
-    List<OspRouteName>? menuBottomConfig,
+    List<RouteName>? menuBottomConfig,
     List<DictPair>? firemen,
     List<DictPair>? firemanRank,
   }) {

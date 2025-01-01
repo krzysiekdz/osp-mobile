@@ -1,29 +1,29 @@
 library app.config;
 
-import 'package:osp_mobile/src/dart/core/index.dart';
+part 'route_name.dart';
+part 'app_config.dart';
 
-part 'menu.dart';
-
-/* 
-  App defaults
-*/
 const appMode = AppMode.dev;
 
 const appTitle = 'OSP Pożarnik';
 
-const kShowDebugInfo = true;
+const List<RouteName> aMenuBottomConfig = [
+  RouteName.dashboard,
+  RouteName.fireman,
+  RouteName.equipment,
+];
 
-class OspAppConfig extends AppConfig {
-  final String url;
-  // final String url2; //np. url do innego api
-  final String title;
-  const OspAppConfig({this.url = '', this.title = ''});
-}
+const aConnTimeout = 10; //10 seconds connection timeout
+
+const urlProd = 'https://osp-pozar.hmcloud.pl';
+const urlDev = 'http://192.168.68.110:8000';
+// const urlDev = 'http://192.168.1.104:8000';
 
 const appConfigProd =
-    OspAppConfig(title: appTitle, url: 'https://osp-pozar.hmcloud.pl');
+    AppConfig(title: appTitle, url: urlProd, menuConfig: aMenuBottomConfig);
 
-const appConfigDev =
-    // OspAppConfig(title: appTitle, url: 'http://localhost:8000');
-    OspAppConfig(title: appTitle, url: 'http://192.168.68.110:8000');
-    // OspAppConfig(title: appTitle, url: 'http://192.168.1.104:8000');
+const appConfigDev = AppConfig(
+    title: appTitle,
+    url: urlDev,
+    showDebugInfo: true,
+    menuConfig: aMenuBottomConfig);

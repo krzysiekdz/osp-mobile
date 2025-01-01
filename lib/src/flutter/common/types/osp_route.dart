@@ -14,7 +14,7 @@ class OspRouteParams<T extends TBase> extends AppRouteParams {
       super.params});
 }
 
-class OspRoute extends AppRoute<OspRouteName, OspRouteParams> {
+class OspRoute extends AppRoute<RouteName, OspRouteParams> {
   OspRoute(
       {required super.menuItem, required super.factory, required super.name});
 }

@@ -1,7 +1,7 @@
 part of 'index.dart';
 
 class MainRouter extends StatefulWidget {
-  final List<OspRouteName> menuBottomConfig;
+  final List<RouteName> menuBottomConfig;
   final Api1Service api1service;
   const MainRouter(
       {super.key, required this.menuBottomConfig, required this.api1service});

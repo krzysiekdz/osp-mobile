@@ -63,7 +63,7 @@ abstract class AppCubit extends Cubit<AppState> {
     emit(AppSession(res));
   }
 
-  void replaceMenuConfig(List<OspRouteName> menuBottomConfig) {
+  void replaceMenuConfig(List<RouteName> menuBottomConfig) {
     if (state is AppSession) {
       emit((state as AppSession).copyWith(menuBottomConfig: menuBottomConfig));
     }
